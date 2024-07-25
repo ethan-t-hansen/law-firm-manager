@@ -7,6 +7,10 @@ each case and related entities.
 
 ## Tentative timeline & responsibilities 
 - Frontend will be mainly handled by Ethan.
+  -  Complete UI mockup complete by EOD this Friday, 7/26
+  -  Landing page, query case page by Monday
+  -  Insert tuples page by Wednesday
+  -  Complete project by next Friday for review
 - Elise and Cindy will implement the backend.
   -  One category of functions per day:
     -  inserts 7/25
