@@ -13,4 +13,4 @@ each case and related entities.
     -  updates 7/26
     -  and so on...
     -  last category on the 4th (deadline!)
-   - Each will handle the functions for 3-4 tables per category of query
+   - Each will handle the functions for 5-6 tables per category of query
