@@ -973,6 +973,14 @@ module.exports = {
     insertFirmEmploymenttable,
     insertCasetable,
 
+    updateInsurancetable,
+    updateClienttable,
+    updateOfficertable,
+    updateTickettable,
+    updateTicketLocationtable,
+    updateTicketTypestable,
+
+
     updateParkingtable,
     updateTrafficLighttable,
     updateCourttable,
