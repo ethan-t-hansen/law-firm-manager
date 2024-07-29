@@ -101,7 +101,7 @@ async function fetchAllTablesFromDb() {
     });
 }
 
-async function initiateInsTable() {
+async function initInsTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE INSURANCETABLE`);
@@ -125,15 +125,15 @@ async function initiateInsTable() {
 }
 
 
-async function initiateClientTable() {
+async function initClientTable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE Client`);
+            await connection.execute(`DROP TABLE CLIENTTABLE`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
         }
         const result = await connection.execute(
-            `CREATE TABLE Client(
+            `CREATE TABLE CLIENTTABLE(
             ClientID INT PRIMARY KEY,
 	        PhoneNum CHAR(10) NOT NULL,
 	        Name VARCHAR(30) NOT NULL,
@@ -146,15 +146,15 @@ async function initiateClientTable() {
         return false;
     });
 }
-async function initiateOfficerTable() {
+async function initOfficerTable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE Officer`);
+            await connection.execute(`DROP TABLE OFFICERTABLE`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
         }
         const result = await connection.execute(
-            `CREATE TABLE Officer(
+            `CREATE TABLE OFFICERTABLE(
 	        OfficerID INT PRIMARY KEY,
 	        Department VARCHAR(30) NOT NULL,
 	        Name VARCHAR(30) NOT NULL
@@ -166,15 +166,15 @@ async function initiateOfficerTable() {
     });
 }
 
-async function initiateTicketTable() {
+async function initTicketTable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE Ticket`);
+            await connection.execute(`DROP TABLE TICKETTABLE`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
         }
         const result = await connection.execute(
-            `CREATE TABLE Ticket(
+            `CREATE TABLE TICKETTABLE(
 	        	TicketNum INT PRIMARY KEY,
 	            DateIssued DATE NOT NULL,
 	            Amount DECIMAL(12,2) NOT NULL,
@@ -199,16 +199,16 @@ async function initiateTicketTable() {
 }
 
 
-async function initTicketLocationtable() {
+async function initTicketLoctable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE TICKETLOCATIONTABLE`);
+            await connection.execute(`DROP TABLE TICKETLOCTABLE`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
         const result = await connection.execute(`
-            CREATE TABLE TICKETLOCATIONTABLE(
+            CREATE TABLE TICKETLOCTABLE(
                City VARCHAR(30) PRIMARY KEY,
               County VARCHAR(30) NOT NULL
             )`
@@ -458,7 +458,7 @@ async function initCasetable() {
 //     });
 // }
 
-async function insertInsurancetable(PolicyNum, ExpiryDate, ClientID) {
+async function insertInstable(PolicyNum, ExpiryDate, ClientID) {
  
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -520,10 +520,10 @@ async function insertTickettable(TicketNum, DateIssued, Amount, OfficerID, CaseI
     });
 }
 
-async function insertTicketLocationtable(City, County) {
+async function insertTicketLoctable(City, County) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO TICKETTABLE(City, County)
+            `INSERT INTO TICKETLOCTABLE(City, County)
             VALUES (:City, :County)`,
             [City, County],
             { autoCommit: true }
@@ -538,7 +538,7 @@ async function insertTicketLocationtable(City, County) {
 async function insertTicketTypestable(StatuteCode, TicketType) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO TICKETTABLE(StatuteCode, TicketType)
+            `INSERT INTO TICKETTYPESTABLE(StatuteCode, TicketType)
             VALUES (:StatuteCode, :TicketType)`,
             [StatuteCode, TicketType],
             { autoCommit: true }
@@ -701,23 +701,7 @@ async function insertCasetable(CaseID, DateFiled, HearingDate, CourtName, Prosec
 //     });
 // }
 
-async function updateInsurancetable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE INSURANCETABLE 
-            SET attribute=:newValue 
-            where PolicyNum=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateInsurancetable(key, attribute, newValue) {
+async function updateInstable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE INSURANCETABLE 
@@ -781,10 +765,10 @@ async function updateTickettable(key, attribute, newValue) {
     });
 }
 
-async function updateTicketLocationtable(key, attribute, newValue) {
+async function updateTicketLoctable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE TICKETLOCATIONTABLE 
+            `UPDATE TICKETLOCTABLE 
             SET attribute=:newValue 
             where City=:key`,
             [key, attribute, newValue],
@@ -814,6 +798,37 @@ async function updateTicketTypestable(key, attribute, newValue) {
 }
 
 
+async function updateSpeedingtable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE SPEEDINGTABLE 
+            SET attribute=:newValue 
+            where TicketNum=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateZonetable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE ZONETABLE 
+            SET attribute=:newValue 
+            where SpeedingZone=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
 
 async function updateParkingtable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
@@ -939,11 +954,11 @@ async function countDemotable() {
 module.exports = {
     testOracleConnection,
     fetchAllTablesFromDb,
-    initiateInsTable,
-    initiateClientTable,
-    initiateOfficerTable,
-    initiateTicketTable,
-    initTicketLocationtable,
+    initInsTable,
+    initClientTable,
+    initOfficerTable,
+    initTicketTable,
+    initTicketLoctable,
     initTicketTypestable,
     initSpeedingtable,
     initZonetable,
@@ -955,11 +970,11 @@ module.exports = {
     initFirmEmploymenttable,
     initCasetable,
     
-    insertInsurancetable,
+    insertInstable,
     insertClienttable,
     insertOfficertable,
     insertTickettable,
-    insertTicketLocationtable,
+    insertTicketLoctable,
     insertTicketTypestable,
 
 
@@ -973,14 +988,15 @@ module.exports = {
     insertFirmEmploymenttable,
     insertCasetable,
 
-    updateInsurancetable,
+    updateInstable,
     updateClienttable,
     updateOfficertable,
     updateTickettable,
-    updateTicketLocationtable,
+    updateTicketLoctable,
     updateTicketTypestable,
 
-
+    updateSpeedingtable,
+    updateZonetable,
     updateParkingtable,
     updateTrafficLighttable,
     updateCourttable,
