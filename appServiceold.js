@@ -101,147 +101,26 @@ async function fetchAllTablesFromDb() {
     });
 }
 
-async function initiateInsTable() {
-    return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE INSURANCETABLE`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-        const result = await connection.execute(
-            `CREATE TABLE INSURANCETABLE(
-            PolicyNum INT,
-	        ExpiryDate DATE NOT NULL,
-	        ClientID INT,
-	        FOREIGN KEY (ClientID) REFERENCES Client(ClientID)
-		    ON UPDATE CASCADE,
-	        PRIMARY KEY (PolicyNum, ClientID)
-            )`
-        );
-        return true;
-    }).catch(() => {
-        return false;
-    });
-}
+// OG init demotable fn
+// async function initiateDemotable() {
+//     return await withOracleDB(async (connection) => {
+//         try {
+//             await connection.execute(`DROP TABLE DEMOTABLE`);
+//         } catch(err) {
+//             console.log('Table might not exist, proceeding to create...');
+//         }
 
-
-async function initiateClientTable() {
-    return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE Client`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-        const result = await connection.execute(
-            `CREATE TABLE Client(
-            ClientID INT PRIMARY KEY,
-	        PhoneNum CHAR(10) NOT NULL,
-	        Name VARCHAR(30) NOT NULL,
-	        Email VARCHAR(30) NOT NULL,
-	        DateOfBirth DATE,
-            UNIQUE(Email))`
-        );
-        return true;
-    }).catch(() => {
-        return false;
-    });
-}
-async function initiateOfficerTable() {
-    return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE Officer`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-        const result = await connection.execute(
-            `CREATE TABLE Officer(
-	        OfficerID INT PRIMARY KEY,
-	        Department VARCHAR(30) NOT NULL,
-	        Name VARCHAR(30) NOT NULL
-            )`
-        );
-        return true;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function initiateTicketTable() {
-    return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE Ticket`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-        const result = await connection.execute(
-            `CREATE TABLE Ticket(
-	        	TicketNum INT PRIMARY KEY,
-	            DateIssued DATE NOT NULL,
-	            Amount DECIMAL(12,2) NOT NULL,
-	            OfficerID INT NOT NULL,
-	            CaseID INT,
-	            City VARCHAR(30),
-	            StatuteCode INT,
-	            FOREIGN KEY (OfficerID) REFERENCES Officer(OfficerID)
-		        ON UPDATE CASCADE,
-                FOREIGN KEY (CaseID) REFERENCES Case(CaseID)
-		        ON UPDATE CASCADE,
-                FOREIGN KEY (City) REFERENCES TicketLocation(City)
-		        ON UPDATE CASCADE,
-                FOREIGN KEY (StatuteCode) REFERENCES TicketTypes(StatuteCode)
-		        ON UPDATE CASCADE)
-                )`
-        );
-        return true;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-async function initTicketLocationtable() {
-    return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE TICKETLOCATIONTABLE`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-
-        const result = await connection.execute(`
-            CREATE TABLE TICKETLOCATIONTABLE(
-               City VARCHAR(30) PRIMARY KEY,
-              County VARCHAR(30) NOT NULL
-            )`
-        );
-        return true;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function initTicketTypestable() {
-    return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE TICKETTYPESTABLE`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-
-        const result = await connection.execute(`
-            CREATE TABLE TICKETTYPESTABLE(
-            StatuteCode INT PRIMARY KEY,
-            TicketType VARCHAR(10)
-            )`
-        );
-        return true;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-
-
+//         const result = await connection.execute(`
+//             CREATE TABLE DEMOTABLE (
+//                 id NUMBER PRIMARY KEY,
+//                 name VARCHAR2(20)
+//             )
+//         `);
+//         return true;
+//     }).catch(() => {
+//         return false;
+//     });
+// }
 
 async function initSpeedingtable() {
     return await withOracleDB(async (connection) => {
@@ -457,100 +336,6 @@ async function initCasetable() {
 //         return false;
 //     });
 // }
-
-async function insertInsurancetable(PolicyNum, ExpiryDate, ClientID) {
- 
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO INSURANCETABLE(PolicyNum, ExpiryDate, ClientID) 
-            VALUES (:PolicyNum, :ExpiryDate, :ClientID)`,
-            [PolicyNum, ExpiryDate, ClientID],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertClienttable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO CLIENTTABLE(ClientID, PhoneNum, Name, Email, DateOfBirth) 
-            VALUES (:ClientID, :PhoneNum, :Name, :Email, :DateOfBirth)`,
-            [ClientID, PhoneNum, Name, Email, DateOfBirth],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertOfficertable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO OFFICERTABLE(OfficerID, Department, Name)
-            VALUES (:OfficerID, :Department, :Name)`,
-            [OfficerID, Department, Name],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-async function insertTickettable(TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO TICKETTABLE(TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode)
-            VALUES (:TicketNum, :DateIssued, :Amount, :OfficerID, :CaseID, :City, :StatuteCode)`,
-            [TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertTicketLocationtable(City, County) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO TICKETTABLE(City, County)
-            VALUES (:City, :County)`,
-            [City, County],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertTicketTypestable(StatuteCode, TicketType) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO TICKETTABLE(StatuteCode, TicketType)
-            VALUES (:StatuteCode, :TicketType)`,
-            [StatuteCode, TicketType],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
 async function insertSpeedingtable(TicketNum, TicketType, SpeedingZone) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -701,8 +486,6 @@ async function insertCasetable(CaseID, DateFiled, HearingDate, CourtName, Prosec
 //     });
 // }
 
-
-
 async function updateParkingtable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -826,48 +609,9 @@ async function countDemotable() {
 
 module.exports = {
     testOracleConnection,
-    fetchAllTablesFromDb,
-    initiateInsTable,
-    initiateClientTable,
-    initiateOfficerTable,
-    initiateTicketTable,
-    initTicketLocationtable,
-    initTicketTypestable,
-    initSpeedingtable,
-    initZonetable,
-    initParkingtable,
-    initTrafficLighttable,
-    initCourttable,
-    initJudgetable,
-    initProsecutortable,
-    initFirmEmploymenttable,
-    initCasetable,
-    
-    insertInsurancetable,
-    insertClienttable,
-    insertOfficertable,
-    insertTickettable,
-    insertTicketLocationtable,
-    insertTicketTypestable,
-
-
-    insertSpeedingtable,
-    insertZonetable,
-    insertParkingtable,
-    insertTrafficLighttable,
-    insertCourttable,
-    insertJudgetable,
-    insertProsecutortable,
-    insertFirmEmploymenttable,
-    insertCasetable,
-
-    updateParkingtable,
-    updateTrafficLighttable,
-    updateCourttable,
-    updateJudgetable,
-    updateProsecutortable,
-    updateFirmtable,
-    updateCasetable,
-
+    fetchDemotableFromDb,
+    initiateDemotable, 
+    insertDemotable, 
+    updateNameDemotable, 
     countDemotable
 };
