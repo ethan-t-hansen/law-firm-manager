@@ -1,5 +1,5 @@
 const express = require('express');
-const appService = require('../CPSC304_Node_Project/appService');
+const appService = require('../project_e5o8h_s3d6p_u2z2b/appService');
 
 const router = express.Router();
 
