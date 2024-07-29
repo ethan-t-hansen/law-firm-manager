@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <!-- START SCRIPT: sh ./remote-start.sh -->
+
+        <meta charset="UTF-8">
+        <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
+        <!-- <link rel="stylesheet" href="styles.css">   -->
+
+        <title>Database Application</title>
+
+        <link rel="stylesheet" href="../styles.css">
+        <script src="https://cdn.tailwindcss.com#.js"></script>
+
+    </head>
+    
+    <body>
+        <!-- Nav Bar -->
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="view-directory.html">View / Edit Tables</a></li>
+            <li><a href="create-entities.html">Add New Entities</a></li>
+        </ul>
+
+        
+        <div class="flex flex-row flex-wrap align-middle justify-items-center py-12 text-center gap-y-16">
+
+            <!-- Add Client -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+                <h1 class="text-left font-bold"> Create New Client</h1>
+                <div class="">
+                    <label for="clientid" class="text-left block text-sm font-medium text-gray-700">Client ID</label>
+                    <input type="number" id="clientid" name="clientid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div class="">
+                    <label for="name" class="text-left block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="email" class="text-left block text-sm font-medium text-gray-700">Email</label>
+                    <input type="text" id="email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="phonenum" class="text-left block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="text" id="phonenum" name="phonenum" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="dateofbirth" class="text-left block text-sm font-medium text-gray-700">Date of Birth (YYYY-MM-DD)</label>
+                    <input type="date" id="dateofbirth" name="dateofbirth" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+            </form>
+
+            <!-- Add Officer -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+                <h1 class="text-left font-bold"> Create New Officer</h1>
+                <div class="">
+                    <label for="officerid" class="text-left block text-sm font-medium text-gray-700">Officer ID</label>
+                    <input type="number" id="officerid" name="officerid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="department" class="text-left block text-sm font-medium text-gray-700">Department</label>
+                    <input type="text" id="department" name="department" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="name" class="text-left block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+            </form>
+
+            <!-- Add Ticket -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+                <h1 class="text-left font-bold"> Create New Ticket</h1>
+                <div>
+                    <label for="ticketnum" class="text-left block text-sm font-medium text-gray-700">Ticket Number</label>
+                    <input type="text" id="ticketnum" name="ticketnum" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="dateissued" class="text-left block text-sm font-medium text-gray-700">Date Issued (YYYY-MM-DD)</label>
+                    <input type="date" id="dateissued" name="dateissued" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="amount" class="text-left block text-sm font-medium text-gray-700">Amount</label>
+                    <input type="number" id="amount" name="amount" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="statutecode" class="text-left block text-sm font-medium text-gray-700">Statue Code</label>
+                    <input type="text" id="statutecode" name="statutecode" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="city" class="text-left block text-sm font-medium text-gray-700">City</label>
+                    <input type="text" id="city" name="city" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="officerid" class="text-left block text-sm font-medium text-gray-700">Officer ID</label>
+                    <input type="text" id="officerid" name="officerid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="caseid" class="text-left block text-sm font-medium text-gray-700">Case ID</label>
+                    <input type="text" id="caseid" name="caseid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+            </form>
+
+             <!-- Add Ticket Location -->
+             <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Ticket Location</h1>
+                
+                <div>
+                    <label for="city" class="text-left block text-sm font-medium text-gray-700">City</label>
+                    <input type="text" id="city" name="city" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="county" class="text-left block text-sm font-medium text-gray-700">County</label>
+                    <input type="text" id="county" name="county" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+    
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+               
+            </form>
+
+            <!-- Add Ticket Types -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Ticket Type</h1>
+
+                
+            <div>
+                <label for="statutecode" class="text-left block text-sm font-medium text-gray-700">Statute Code</label>
+                <input type="number" id="statutecode" name="statutecode" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="tickettype" class="text-left block text-sm font-medium text-gray-700">Ticket Type</label>
+                <input type="text" id="tickettype" name="tickettype" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+                
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add Speeding -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Speeding Ticket</h1>
+
+                <div>
+                    <label for="ticketnum" class="text-left block text-sm font-medium text-gray-700">Ticket Num</label>
+                    <input type="number" id="ticketnum" name="ticketnum" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="tickettype" class="text-left block text-sm font-medium text-gray-700">Ticket Type</label>
+                    <input type="text" id="tickettype" name="tickettype" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                
+                <div>
+                    <label for="speedingzone" class="text-left block text-sm font-medium text-gray-700">Speeding Zone</label>
+                    <input type="text" id="speedingzone" name="speedingzone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>            
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+            </form>
+
+            <!-- Add Zone Limits -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Zone Limit</h1>
+
+
+            <div>
+                <label for="speedingzone" class="text-left block text-sm font-medium text-gray-700">Speeding Zone</label>
+                <input type="text" id="speedingzone" name="speedingzone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="limit" class="text-left block text-sm font-medium text-gray-700">Limit</label>
+                <input type="number" id="limit" name="limit" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add Parking -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Parking</h1>
+
+
+            <div>
+                <label for="ticketnum" class="text-left block text-sm font-medium text-gray-700">Ticket Num</label>
+                <input type="number" id="ticketnum" name="ticketnum" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="parkingzone" class="text-left block text-sm font-medium text-gray-700">Parking Zone</label>
+                <input type="text" id="parkingzone" name="parkingzone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add TrafficLight -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Tr. Light Ticket</h1>
+
+
+            <div>
+                <label for="ticketnum" class="text-left block text-sm font-medium text-gray-700">Ticket Num</label>
+                <input type="number" id="ticketnum" name="ticketnum" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="photourl" class="text-left block text-sm font-medium text-gray-700">Photo URL</label>
+                <input type="url" id="photourl" name="photourl" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add Case -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Case</h1>
+
+            <div>
+                <label for="caseid" class="text-left block text-sm font-medium text-gray-700">Case ID</label>
+                <input type="number" id="caseid" name="caseid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="datefiled" class="text-left block text-sm font-medium text-gray-700">Date Filed</label>
+                <input type="date" id="datefiled" name="datefiled" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="hearingdate" class="text-left block text-sm font-medium text-gray-700">Hearing Date</label>
+                <input type="date" id="hearingdate" name="hearingdate" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="courtname" class="text-left block text-sm font-medium text-gray-700">Court Name</label>
+                <input type="text" id="courtname" name="courtname" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="prosecutorid" class="text-left block text-sm font-medium text-gray-700">Prosecutor ID</label>
+                <input type="number" id="prosecutorid" name="prosecutorid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="judgeid" class="text-left block text-sm font-medium text-gray-700">Judge ID</label>
+                <input type="number" id="judgeid" name="judgeid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="ticketnum" class="text-left block text-sm font-medium text-gray-700">Ticket Num</label>
+                <input type="number" id="ticketnum" name="ticketnum" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add Court -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Court</h1>
+            <div>
+                <label for="courtname" class="text-left block text-sm font-medium text-gray-700">Court Name</label>
+                <input type="text" id="courtname" name="courtname" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="location" class="text-left block text-sm font-medium text-gray-700">Location</label>
+                <input type="text" id="location" name="location" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="type" class="text-left block text-sm font-medium text-gray-700">Type</label>
+                <input type="text" id="type" name="type" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add Judge -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Judge</h1>
+
+            <div>
+                <label for="judgeid" class="text-left block text-sm font-medium text-gray-700">Judge ID</label>
+                <input type="number" id="judgeid" name="judgeid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="name" class="text-left block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="courtname" class="text-left block text-sm font-medium text-gray-700">Court Name</label>
+                <input type="text" id="courtname" name="courtname" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add Prosecutor -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Prosecutor</h1>
+
+            <div>
+                <label for="prosecutorid" class="text-left block text-sm font-medium text-gray-700">Prosecutor ID</label>
+                <input type="number" id="prosecutorid" name="prosecutorid" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="name" class="text-left block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="courtname" class="text-left block text-sm font-medium text-gray-700">Court Name</label>
+                <input type="text" id="courtname" name="courtname" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="firmname" class="text-left block text-sm font-medium text-gray-700">Firm Name</label>
+                <input type="text" id="firmname" name="firmname" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+            <!-- Add Firm Employment -->
+            <form id="dynamic-form" class="space-y-4 ml-16 w-64">
+
+                <h1 class="text-left font-bold"> Create New Firm Employment</h1>
+
+            <div>
+                <label for="firm" class="text-left block text-sm font-medium text-gray-700">Firm</label>
+                <input type="text" id="firm" name="firm" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="clerk" class="text-left block text-sm font-medium text-gray-700">Clerk</label>
+                <input type="text" id="clerk" name="clerk" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600">Submit</button>
+           
+            </form>
+
+        </div>
+    </body>
+</html>
