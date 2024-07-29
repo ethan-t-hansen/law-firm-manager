@@ -701,6 +701,118 @@ async function insertCasetable(CaseID, DateFiled, HearingDate, CourtName, Prosec
 //     });
 // }
 
+async function updateInsurancetable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE INSURANCETABLE 
+            SET attribute=:newValue 
+            where PolicyNum=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateInsurancetable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE INSURANCETABLE 
+            SET attribute=:newValue 
+            where PolicyNum=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateClienttable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE CLIENTTABLE 
+            SET attribute=:newValue 
+            where ClientID=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateOfficertable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE OFFICERTABLE 
+            SET attribute=:newValue 
+            where OfficerID=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateTickettable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE TICKETTABLE 
+            SET attribute=:newValue 
+            where TicketNum=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateTicketLocationtable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE TICKETLOCATIONTABLE 
+            SET attribute=:newValue 
+            where City=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateTicketTypestable(key, attribute, newValue) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE TICKETTYPESTABLE 
+            SET attribute=:newValue 
+            where StatuteCode=:key`,
+            [key, attribute, newValue],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 
 
 async function updateParkingtable(key, attribute, newValue) {
