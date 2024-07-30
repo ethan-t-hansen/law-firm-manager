@@ -20,6 +20,13 @@ router.get('/demotable', async (req, res) => {
     res.json({data: tableContent});
 });
 
+// TODO: break fetch function into multiple so can create multiple tables
+// router.get('/demotable', async (req, res) => {
+//     const tableContent = await appService.fetchAllTablesFromDb();
+//     res.json({data: tableContent});
+// });
+
+
 router.post("/initiate-demotable", async (req, res) => {
     const initiateResult = await appService.initiateDemotable();
     if (initiateResult) {

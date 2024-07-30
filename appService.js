@@ -942,6 +942,20 @@ async function updateCasetable(key, attribute, newValue) {
     });
 }
 
+async function deleteCase(caseID) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`
+            DELETE FROM CASETABLE
+            WHERE CaseID = :caseID
+        `, [recipeID]);
+        await connection.commit();
+        return result.rowsAffected;
+    }).catch((err) => {
+        console.error(err);
+        return 0;
+    });
+}
+
 async function countDemotable() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
@@ -1005,5 +1019,7 @@ module.exports = {
     updateFirmtable,
     updateCasetable,
 
-    countDemotable
+    countDemotable,
+    
+    deleteCase
 };
