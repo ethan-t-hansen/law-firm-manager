@@ -76,13 +76,55 @@ async function testOracleConnection() {
     });
 }
 
-async function fetchAllTablesFromDb() {
+async function fetchInsTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             'SELECT * FROM INSURANCETABLE',
-            'SELECT * FROM CLIENTTABLE',
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchClientTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM CLIENTTABLE'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchTicketTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM TICKETTABLE'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchCasesTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM CASETABLE'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+
+async function fetchAllTablesFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
             'SELECT * FROM OFFICERTABLE',
-            'SELECT * FROM TICKETTABLE',
             'SELECT * FROM TICKETLOCTABLE',
             'SELECT * FROM TICKETTYPESTABLE',
             'SELECT * FROM SPEEDINGTABLE',
@@ -93,7 +135,6 @@ async function fetchAllTablesFromDb() {
             'SELECT * FROM JUDGETABLE',
             'SELECT * FROM PROSECUTORTABLE',
             'SELECT * FROM FIRMTABLE',
-            'SELECT * FROM CASETABLE'
         );
         return result.rows;
     }).catch(() => {
@@ -926,13 +967,15 @@ async function updateFirmtable(key, attribute, newValue) {
     });
 }
 
-async function updateCasetable(key, attribute, newValue) {
+async function updateCasetable(caseID, attribute, newValue) {
     return await withOracleDB(async (connection) => {
+        // Construct the SQL query dynamically
+        const query = `UPDATE CASETABLE SET ${attribute} = :newValue WHERE CaseID = :caseID`;
+
+        // Execute the query with the provided values
         const result = await connection.execute(
-            `UPDATE CASETABLE 
-            SET attribute=:newValue 
-            where CaseID=:key`,
-            [key, attribute, newValue],
+            query,
+            { newValue, caseID },
             { autoCommit: true }
         );
 
@@ -941,6 +984,7 @@ async function updateCasetable(key, attribute, newValue) {
         return false;
     });
 }
+
 
 async function deleteCase(caseID) {
     return await withOracleDB(async (connection) => {
@@ -967,7 +1011,11 @@ async function countDemotable() {
 
 module.exports = {
     testOracleConnection,
+
+    fetchInsTableFromDb,
+    fetchClientTableFromDb,
     fetchAllTablesFromDb,
+
     initInsTable,
     initClientTable,
     initOfficerTable,
@@ -1020,6 +1068,6 @@ module.exports = {
     updateCasetable,
 
     countDemotable,
-    
+
     deleteCase
 };
