@@ -708,24 +708,114 @@ async function updateClientTable(key, clientAttribute, newValue) {
     });
 }
 
-async function updateCaseTable(caseID, attribute, newValue) {
+async function updateCaseTable(key, caseAttribute, newValue) {
     return await withOracleDB(async (connection) => {
-        // Construct the SQL query dynamically
-        const query = `UPDATE CASETABLE SET ${attribute} = :newValue WHERE CaseID = :caseID`;
 
-        // Execute the query with the provided values
-        const result = await connection.execute(
-            query,
-            { newValue, caseID },
-            { autoCommit: true }
-        );
+        let result = '';
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        switch (caseAttribute) {
+            case "DateFiled":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET DateFiled = :newValue 
+                        WHERE CaseID  = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "HearingDate":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET HearingDate = :newValue  
+                        WHERE CaseID = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "CourtName":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET CourtName = :newValue 
+                        WHERE CaseID = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "ProsecutorID":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET ProsecutorID = :newValue 
+                        WHERE CaseID = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "JudgeID":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET JudgeID = :newValue 
+                        WHERE CaseID  = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "TicketNum":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET TicketNum = :newValue 
+                        WHERE CaseID  = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "ClientID":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET ClientID = :newValue 
+                        WHERE CaseID  = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "Outcome":
+                result = await connection.execute(
+                    `UPDATE CASETABLE  
+                        SET Outcome = :newValue 
+                        WHERE CaseID  = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+        }
+
     }).catch(() => {
         return false;
     });
 }
-
 
 async function deleteCase(caseID) {
     return await withOracleDB(async (connection) => {
