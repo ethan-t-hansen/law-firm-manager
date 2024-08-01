@@ -240,7 +240,7 @@ async function initTicketTable() {
 }
 
 
-async function initTicketLoctable() {
+async function initTicketLocTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE TICKETLOCTABLE`);
@@ -260,7 +260,7 @@ async function initTicketLoctable() {
     });
 }
 
-async function initTicketTypestable() {
+async function initTicketTypesTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE TICKETTYPESTABLE`);
@@ -284,7 +284,7 @@ async function initTicketTypestable() {
 
 
 
-async function initSpeedingtable() {
+async function initSpeedingTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE SPEEDINGTABLE`);
@@ -307,7 +307,7 @@ async function initSpeedingtable() {
     });
 }
 
-async function initZonetable() {
+async function initZoneTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE ZONETABLE`);
@@ -326,7 +326,7 @@ async function initZonetable() {
         return false;
     });
 }
-async function initParkingtable() {
+async function initParkingTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE PARKINGTABLE`);
@@ -347,7 +347,7 @@ async function initParkingtable() {
         return false;
     });
 }
-async function initTrafficLighttable() {
+async function initTrafficLightTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE TRAFFICLIGHTTABLE`);
@@ -367,7 +367,7 @@ async function initTrafficLighttable() {
         return false;
     });
 }
-async function initCourttable() {
+async function initCourtTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE COURTTABLE`);
@@ -387,7 +387,7 @@ async function initCourttable() {
         return false;
     });
 }
-async function initJudgetable() {
+async function initJudgeTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE JUDGETABLE`);
@@ -408,7 +408,7 @@ async function initJudgetable() {
         return false;
     });
 }
-async function initProsecutortable() {
+async function initProsecutorTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE PROSECUTORTABLE`);
@@ -431,7 +431,7 @@ async function initProsecutortable() {
         return false;
     });
 }
-async function initFirmEmploymenttable() {
+async function initFirmEmploymentTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE FIRMTABLE`);
@@ -450,7 +450,7 @@ async function initFirmEmploymenttable() {
         return false;
     });
 }
-async function initCasetable() {
+async function initCaseTable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE CASETABLE`);
@@ -484,8 +484,8 @@ async function initCasetable() {
     });
 }
 
-// OG insert demotable fn
-// async function insertDemotable(id, name) {
+// OG insert demoTable fn
+// async function insertDemoTable(id, name) {
 //     return await withOracleDB(async (connection) => {
 //         const result = await connection.execute(
 //             `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
@@ -499,7 +499,7 @@ async function initCasetable() {
 //     });
 // }
 
-async function insertInstable(PolicyNum, ExpiryDate, ClientID) {
+async function insertInsTable(PolicyNum, ExpiryDate, ClientID) {
  
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -515,7 +515,7 @@ async function insertInstable(PolicyNum, ExpiryDate, ClientID) {
     });
 }
 
-async function insertClienttable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
+async function insertClientTable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO CLIENTTABLE(ClientID, PhoneNum, Name, Email, DateOfBirth) 
@@ -530,7 +530,7 @@ async function insertClienttable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
     });
 }
 
-async function insertOfficertable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
+async function insertOfficerTable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO OFFICERTABLE(OfficerID, Department, Name)
@@ -546,7 +546,7 @@ async function insertOfficertable(ClientID, PhoneNum, Name, Email, DateOfBirth) 
 }
 
 
-async function insertTickettable(TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode) {
+async function insertTicketTable(TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO TICKETTABLE(TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode)
@@ -561,7 +561,7 @@ async function insertTickettable(TicketNum, DateIssued, Amount, OfficerID, CaseI
     });
 }
 
-async function insertTicketLoctable(City, County) {
+async function insertTicketLocTable(City, County) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO TICKETLOCTABLE(City, County)
@@ -576,7 +576,7 @@ async function insertTicketLoctable(City, County) {
     });
 }
 
-async function insertTicketTypestable(StatuteCode, TicketType) {
+async function insertTicketTypesTable(StatuteCode, TicketType) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO TICKETTYPESTABLE(StatuteCode, TicketType)
@@ -592,7 +592,7 @@ async function insertTicketTypestable(StatuteCode, TicketType) {
 }
 
 
-async function insertSpeedingtable(TicketNum, TicketType, SpeedingZone) {
+async function insertSpeedingTable(TicketNum, TicketType, SpeedingZone) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO SPEEDINGTABLE (TicketNum, TicketType, SpeedingZone) 
@@ -607,7 +607,7 @@ async function insertSpeedingtable(TicketNum, TicketType, SpeedingZone) {
     });
 }
 
-async function insertZonetable(SpeedingZone, SpeedLimit) {
+async function insertZoneTable(SpeedingZone, SpeedLimit) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO ZONETABLE (SpeedingZone, SpeedLimit) 
@@ -622,7 +622,7 @@ async function insertZonetable(SpeedingZone, SpeedLimit) {
     });
 }
 
-async function insertParkingtable(TicketNum, ParkingZone) {
+async function insertParkingTable(TicketNum, ParkingZone) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO PARKINGTABLE (TicketNum, ParkingZone) 
@@ -637,7 +637,7 @@ async function insertParkingtable(TicketNum, ParkingZone) {
     });
 }
 
-async function insertTrafficLighttable(TicketNum, PhotoURL) {
+async function insertTrafficLightTable(TicketNum, PhotoURL) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO TRAFFICLIGHTTABLE (TicketNum, PhotoURL) 
@@ -652,7 +652,7 @@ async function insertTrafficLighttable(TicketNum, PhotoURL) {
     });
 }
 
-async function insertCourttable(CourtName, Location, Type) {
+async function insertCourtTable(CourtName, Location, Type) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO COURTTABLE (CourtName, Location, Type) 
@@ -667,7 +667,7 @@ async function insertCourttable(CourtName, Location, Type) {
     });
 }
 
-async function insertJudgetable(JudgeID, Name, CourtName) {
+async function insertJudgeTable(JudgeID, Name, CourtName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO JUDGETABLE (JudgeID, Name, CourtName) 
@@ -682,7 +682,7 @@ async function insertJudgetable(JudgeID, Name, CourtName) {
     });
 }
 
-async function insertProsecutortable(ProsecutorID, Name, FirmName, CourtName) {
+async function insertProsecutorTable(ProsecutorID, Name, FirmName, CourtName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO PROSECUTORTABLE (ProsecutorID, Name, FirmName, CourtName) 
@@ -697,7 +697,7 @@ async function insertProsecutortable(ProsecutorID, Name, FirmName, CourtName) {
     });
 }
 
-async function insertFirmEmploymenttable(Name, Clerk) {
+async function insertFirmEmploymentTable(Name, Clerk) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO FIRMTABLE (Name, Clerk) 
@@ -712,7 +712,7 @@ async function insertFirmEmploymenttable(Name, Clerk) {
     });
 }
 
-async function insertCasetable(CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) {
+async function insertCaseTable(CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) 
@@ -727,8 +727,8 @@ async function insertCasetable(CaseID, DateFiled, HearingDate, CourtName, Prosec
     });
 }
 
-// OG update demotable fn
-// async function updateNameDemotable(oldName, newName) {
+// OG update demoTable fn
+// async function updateNameDemoTable(oldName, newName) {
 //     return await withOracleDB(async (connection) => {
 //         const result = await connection.execute(
 //             `UPDATE DEMOTABLE SET name=:newName where name=:oldName`,
@@ -742,7 +742,7 @@ async function insertCasetable(CaseID, DateFiled, HearingDate, CourtName, Prosec
 //     });
 // }
 
-async function updateInstable(key, attribute, newValue) {
+async function updateInsTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE INSURANCETABLE 
@@ -758,13 +758,17 @@ async function updateInstable(key, attribute, newValue) {
     });
 }
 
-async function updateClienttable(key, attribute, newValue) {
+async function updateClientTable(key, clientAttribute, newValue) {
+    
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE CLIENTTABLE 
-            SET attribute=:newValue 
-            where ClientID=:key`,
-            [key, attribute, newValue],
+             SET Name = :newValue 
+             WHERE ClientID = :key`,
+            {
+                newValue: newValue,
+                key: key
+            },
             { autoCommit: true }
         );
 
@@ -774,7 +778,7 @@ async function updateClienttable(key, attribute, newValue) {
     });
 }
 
-async function updateOfficertable(key, attribute, newValue) {
+async function updateOfficerTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE OFFICERTABLE 
@@ -790,7 +794,7 @@ async function updateOfficertable(key, attribute, newValue) {
     });
 }
 
-async function updateTickettable(key, attribute, newValue) {
+async function updateTicketTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE TICKETTABLE 
@@ -806,7 +810,7 @@ async function updateTickettable(key, attribute, newValue) {
     });
 }
 
-async function updateTicketLoctable(key, attribute, newValue) {
+async function updateTicketLocTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE TICKETLOCTABLE 
@@ -822,7 +826,7 @@ async function updateTicketLoctable(key, attribute, newValue) {
     });
 }
 
-async function updateTicketTypestable(key, attribute, newValue) {
+async function updateTicketTypesTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE TICKETTYPESTABLE 
@@ -839,7 +843,7 @@ async function updateTicketTypestable(key, attribute, newValue) {
 }
 
 
-async function updateSpeedingtable(key, attribute, newValue) {
+async function updateSpeedingTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE SPEEDINGTABLE 
@@ -855,7 +859,7 @@ async function updateSpeedingtable(key, attribute, newValue) {
     });
 }
 
-async function updateZonetable(key, attribute, newValue) {
+async function updateZoneTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE ZONETABLE 
@@ -871,7 +875,7 @@ async function updateZonetable(key, attribute, newValue) {
     });
 }
 
-async function updateParkingtable(key, attribute, newValue) {
+async function updateParkingTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE PARKIINGTABLE 
@@ -887,7 +891,7 @@ async function updateParkingtable(key, attribute, newValue) {
     });
 }
 
-async function updateTrafficLighttable(key, attribute, newValue) {
+async function updateTrafficLightTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE TRAFFICLIGHTTABLE 
@@ -903,7 +907,7 @@ async function updateTrafficLighttable(key, attribute, newValue) {
     });
 }
 
-async function updateCourttable(key, attribute, newValue) {
+async function updateCourtTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE COURTTTABLE 
@@ -919,7 +923,7 @@ async function updateCourttable(key, attribute, newValue) {
     });
 }
 
-async function updateJudgetable(key, attribute, newValue) {
+async function updateJudgeTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE JUDGETABLE 
@@ -935,7 +939,7 @@ async function updateJudgetable(key, attribute, newValue) {
     });
 }
 
-async function updateProsecutortable(key, attribute, newValue) {
+async function updateProsecutorTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE PROSECUTORTABLE 
@@ -951,7 +955,7 @@ async function updateProsecutortable(key, attribute, newValue) {
     });
 }
 
-async function updateFirmtable(key, attribute, newValue) {
+async function updateFirmTable(key, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE FIRMTABLE 
@@ -967,7 +971,7 @@ async function updateFirmtable(key, attribute, newValue) {
     });
 }
 
-async function updateCasetable(caseID, attribute, newValue) {
+async function updateCaseTable(caseID, attribute, newValue) {
     return await withOracleDB(async (connection) => {
         // Construct the SQL query dynamically
         const query = `UPDATE CASETABLE SET ${attribute} = :newValue WHERE CaseID = :caseID`;
@@ -1000,7 +1004,7 @@ async function deleteCase(caseID) {
     });
 }
 
-async function countDemotable() {
+async function countDemoTable() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
         return result.rows[0][0];
@@ -1012,62 +1016,62 @@ async function countDemotable() {
 module.exports = {
     testOracleConnection,
 
-    fetchInsTableFromDb,
+    // fetchInsTableFromDb,
     fetchClientTableFromDb,
-    fetchAllTablesFromDb,
+    // fetchAllTablesFromDb,
 
-    initInsTable,
+    // initInsTable,
     initClientTable,
-    initOfficerTable,
-    initTicketTable,
-    initTicketLoctable,
-    initTicketTypestable,
-    initSpeedingtable,
-    initZonetable,
-    initParkingtable,
-    initTrafficLighttable,
-    initCourttable,
-    initJudgetable,
-    initProsecutortable,
-    initFirmEmploymenttable,
-    initCasetable,
+    // initOfficerTable,
+    // initTicketTable,
+    // initTicketLocTable,
+    // initTicketTypesTable,
+    // initSpeedingTable,
+    // initZoneTable,
+    // initParkingTable,
+    // initTrafficLightTable,
+    // initCourtTable,
+    // initJudgeTable,
+    // initProsecutorTable,
+    // initFirmEmploymentTable,
+    // initCaseTable,
     
-    insertInstable,
-    insertClienttable,
-    insertOfficertable,
-    insertTickettable,
-    insertTicketLoctable,
-    insertTicketTypestable,
+    // insertInsTable,
+    insertClientTable,
+    // insertOfficerTable,
+    // insertTicketTable,
+    // insertTicketLocTable,
+    // insertTicketTypesTable,
 
 
-    insertSpeedingtable,
-    insertZonetable,
-    insertParkingtable,
-    insertTrafficLighttable,
-    insertCourttable,
-    insertJudgetable,
-    insertProsecutortable,
-    insertFirmEmploymenttable,
-    insertCasetable,
+    // insertSpeedingTable,
+    // insertZoneTable,
+    // insertParkingTable,
+    // insertTrafficLightTable,
+    // insertCourtTable,
+    // insertJudgeTable,
+    // insertProsecutorTable,
+    // insertFirmEmploymentTable,
+    // insertCaseTable,
 
-    updateInstable,
-    updateClienttable,
-    updateOfficertable,
-    updateTickettable,
-    updateTicketLoctable,
-    updateTicketTypestable,
+    // updateInsTable,
+    updateClientTable,
+    // updateOfficerTable,
+    // updateTicketTable,
+    // updateTicketLocTable,
+    // updateTicketTypesTable,
 
-    updateSpeedingtable,
-    updateZonetable,
-    updateParkingtable,
-    updateTrafficLighttable,
-    updateCourttable,
-    updateJudgetable,
-    updateProsecutortable,
-    updateFirmtable,
-    updateCasetable,
+    // updateSpeedingTable,
+    // updateZoneTable,
+    // updateParkingTable,
+    // updateTrafficLightTable,
+    // updateCourtTable,
+    // updateJudgeTable,
+    // updateProsecutorTable,
+    // updateFirmTable,
+    // updateCaseTable,
 
-    countDemotable,
+    // countDemoTable,
 
-    deleteCase
+    // deleteCase
 };

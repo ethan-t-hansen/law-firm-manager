@@ -1,5 +1,5 @@
 const express = require('express');
-const appService = require('/home/e/elisekat/CPSC304_Node_Project-main/appService.js');
+const appService = require('./appService.js');
 
 const router = express.Router();
 
@@ -21,6 +21,62 @@ router.get('/check-db-connection', async (req, res) => {
 //     res.json({data: tableContent});
 // });
 
+{/* ------------------------------ CLIENTS ------------------------------ */}
+
+//Initiate client table
+router.post("/initiate-clienttable", async (req, res) => {
+    const initiateResult = await appService.initClientTable();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+//Get all Clients
+router.get('/clienttable', async (req, res) => {
+    const tableContent = await appService.fetchClientTableFromDb();
+    res.json({data: tableContent});
+});
+
+// Insert Client Table
+router.post("/insert-clienttable", async (req, res) => {
+    const { clientid, phonenum, name, email, dateofbirth } = req.body;
+    const date = dateofbirth ? dateofbirth : null;
+    const insertResult = await appService.insertClientTable(clientid, phonenum, name, email, date);
+
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+// Update Client Table
+router.post("/update-client", async (req, res) => {
+
+    const { clientID, clientAttribute, newValue } = req.body;
+
+    if (!clientID) {
+        return res.status(400).json({ success: false, message: "Client ID is required." });
+    }
+
+    try {
+
+        const updateResult = await appService.updateClientTable(parseInt(clientID), clientAttribute, newValue)
+        if (updateResult) {
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ success: false, message: "No client found for client ID: " + clientID});
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+
+{/* ------------------------------ [ENTITY NAME] ------------------------------ */}
+
 
 //Get all Insurance
 router.get('/instable', async (req, res) => {
@@ -29,11 +85,7 @@ router.get('/instable', async (req, res) => {
 });
 
 
-//Get all Clients
-router.get('/clienttable', async (req, res) => {
-    const tableContent = await appService.fetchClientTableFromDb();
-    res.json({data: tableContent});
-});
+
 
 //Get all Tickets
 router.get('/tickettable', async (req, res) => {

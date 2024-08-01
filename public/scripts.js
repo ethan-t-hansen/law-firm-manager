@@ -36,12 +36,14 @@ async function checkDbConnection() {
     });
 }
 
-// Fetches data from the demotable and displays it.
-async function fetchAndDisplayUsers() {
-    const tableElement = document.getElementById('demotable');
+{/* ------------------------------ CLIENTS ------------------------------ */}
+
+// Fetches data from the client table and displays it.
+async function fetchAndDisplayClients() {
+    const tableElement = document.getElementById('clienttable');
     const tableBody = tableElement.querySelector('tbody');
 
-    const response = await fetch('/demotable', {
+    const response = await fetch('/clienttable', {
         method: 'GET'
     });
 
@@ -62,37 +64,54 @@ async function fetchAndDisplayUsers() {
     });
 }
 
-// This function resets or initializes the demotable.
-async function resetDemotable() {
-    const response = await fetch("/initiate-demotable", {
+// This function resets or initializes the client table.
+async function resetClients() {
+    const response = await fetch("/initiate-clienttable", {
         method: 'POST'
     });
     const responseData = await response.json();
 
     if (responseData.success) {
         const messageElement = document.getElementById('resetResultMsg');
-        messageElement.textContent = "demotable initiated successfully!";
+        messageElement.textContent = "client table initiated successfully!";
         fetchTableData();
     } else {
         alert("Error initiating table!");
     }
 }
 
+function formatDateForOracle(dateStr) {
+    // Convert the date string (YYYY-MM-DD) to Oracle's expected format (DD-MON-YYYY)
+    const date = new Date(dateStr);
+    const day = ('0' + date.getDate()).slice(-2);
+    const month = date.toLocaleString('en-us', { month: 'short' }).toUpperCase();
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+}
+
 // Inserts new records into the demotable.
-async function insertDemotable(event) {
+async function insertClient(event) {
     event.preventDefault();
 
-    const idValue = document.getElementById('insertId').value;
-    const nameValue = document.getElementById('insertName').value;
+    // clientid, phonenum, name, email, dateofbirth
 
-    const response = await fetch('/insert-demotable', {
+    const idValue = document.getElementById('insertClientId').value;
+    const phoneValue = document.getElementById('insertClientPhone').value;
+    const nameValue = document.getElementById('insertClientName').value;
+    const emailValue = document.getElementById('insertClientEmail').value;
+    const dobValue = document.getElementById('insertClientDOB').value;
+
+    const response = await fetch('/insert-clienttable', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: idValue,
-            name: nameValue
+            clientid: idValue,
+            phonenum: phoneValue,
+            name: nameValue,
+            email: emailValue,
+            dateofbirth: formatDateForOracle(dobValue),
         })
     });
 
@@ -103,38 +122,50 @@ async function insertDemotable(event) {
         messageElement.textContent = "Data inserted successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error inserting data!";
+        messageElement.textContent = "Error inserting data";
     }
 }
 
-// Updates names in the demotable.
-async function updateNameDemotable(event) {
+// Updates attribute in the demotable.
+async function updateClient(event) {
     event.preventDefault();
 
-    const oldNameValue = document.getElementById('updateOldName').value;
-    const newNameValue = document.getElementById('updateNewName').value;
+    const clientID = document.getElementById('updateClientID').value;
+    const clientAttribute = document.getElementById('updateClientAttribute').value;
+    const newValue = document.getElementById('updateClientValue').value;
 
-    const response = await fetch('/update-name-demotable', {
+    console.log(clientID)
+    console.log(clientAttribute)
+    console.log(newValue)
+
+
+    const response = await fetch('/update-client', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            oldName: oldNameValue,
-            newName: newNameValue
+            clientID: clientID,
+            clientAttribute: clientAttribute,
+            newValue: newValue
         })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('updateNameResultMsg');
+    const messageElement = document.getElementById('updateClientResultMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "Name updated successfully!";
+        messageElement.textContent = "Client updated successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error updating name!";
+        messageElement.textContent = "Error updating ";
     }
 }
+
+
+
+
+{/* ------------------------------ [ENTITY NAME] ------------------------------ */}
 
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
@@ -148,7 +179,7 @@ async function countDemotable() {
 
     if (responseData.success) {
         const tupleCount = responseData.count;
-        messageElement.textContent = `The number of tuples in demotable: ${tupleCount}`;
+        messageElement.textContent = `The number of tuples in table: ${tupleCount}`;
     } else {
         alert("Error in count demotable!");
     }
@@ -161,14 +192,13 @@ async function countDemotable() {
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
-    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
-    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    document.getElementById("resetClients").addEventListener("click", resetClients);
+    document.getElementById("insertClient").addEventListener("submit", insertClient);
+    document.getElementById("updateClient").addEventListener("submit", updateClient);
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
-    fetchAndDisplayUsers();
+    fetchAndDisplayClients();
 }

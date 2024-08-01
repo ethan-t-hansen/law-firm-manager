@@ -7,6 +7,7 @@ body {
     height: 100%;
     margin: 0px;
     padding: 0px;
+    
 }
 
 /* AdditionalCSS */
@@ -26,4 +27,66 @@ li {
     color: black;
     text-decoration: underline;
 }
+
+hr {
+    border-top: 2px solid rgb(44, 51, 62);
+    margin: auto;
+}
+
+/* TABLE STYLES */
+table {
+    margin-top:16px;
+    width: fit-content;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+th, td {
+    font-size: small;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+button {
+    background-color: rgb(24, 110, 249);
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    outline: none;
+}
+
+input {
+    border: solid 1px rgb(172, 178, 185);
+    
+}
+
+button:hover {
+    background-color: rgb(22, 87, 207);
+}
+
+button:active {
+    background-color: rgb(12, 67, 187);
+}
+
+/* OTHER STYLES */
+.loading-gif {
+    height: 1em;
+    vertical-align: middle;
+}
+
 
