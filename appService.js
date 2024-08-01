@@ -650,18 +650,57 @@ async function updateClientTable(key, clientAttribute, newValue) {
     
     return await withOracleDB(async (connection) => {
 
-        if (clientAttribute === "DateOfBirth") {
-            result = await connection.execute(
-                `UPDATE CLIENTTABLE 
-                 SET DateOfBirth = :newValue 
-                 WHERE ClientID = :key`,
-                {
-                    newValue: newValue,
-                    key: key
-                },
-                { autoCommit: true }
-            );
-            return result.rowsAffected && result.rowsAffected > 0;
+        let result = '';
+
+        switch (clientAttribute) {
+            case "PhoneNum":
+                result = await connection.execute(
+                    `UPDATE CLIENTTABLE 
+                        SET PhoneNum = :newValue 
+                        WHERE ClientID = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "Name":
+                result = await connection.execute(
+                    `UPDATE CLIENTTABLE 
+                    SET Name = :newValue 
+                    WHERE ClientID = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "Email":
+                result = await connection.execute(
+                    `UPDATE CLIENTTABLE 
+                        SET Email = :newValue 
+                        WHERE ClientID = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
+            case "DateOfBirth":
+                result = await connection.execute(
+                    `UPDATE CLIENTTABLE 
+                        SET DateOfBirth = :newValue 
+                        WHERE ClientID = :key`,
+                    {
+                        newValue: newValue,
+                        key: key
+                    },
+                    { autoCommit: true }
+                );
+                return result.rowsAffected && result.rowsAffected > 0;
         }
 
     }).catch(() => {
