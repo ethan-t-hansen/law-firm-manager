@@ -380,9 +380,6 @@ async function initTicketTypesTable() {
 }
 
 
-
-
-
 async function initSpeedingTable() {
     return await withOracleDB(async (connection) => {
         try {
@@ -566,6 +563,8 @@ async function initCaseTable() {
                 ProsecutorID INT,
                 JudgeID INT,
                 TicketNum INT NOT NULL,
+                ClientID INT NOT NULL,
+                Outcome VARCHAR(25),
                 FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName)
                     ON UPDATE CASCADE,
                 FOREIGN KEY (ProsecutorID) REFERENCES PROSECUTORTABLE(ProsecutorID)
@@ -573,6 +572,8 @@ async function initCaseTable() {
                 FOREIGN KEY (JudgeID) REFERENCES JUDGETABLE(JudgeID)
                     ON UPDATE CASCADE,
                 FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum)
+                    ON UPDATE CASCADE,
+                FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID)
                     ON UPDATE CASCADE,
                 UNIQUE(TicketNum)
             )
