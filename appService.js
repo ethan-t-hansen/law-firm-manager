@@ -79,7 +79,7 @@ async function testOracleConnection() {
 async function fetchInsTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM INSURANCETABLE',
+            'SELECT * FROM INSURANCETABLE ORDER BY ClientID',
         );
         return result.rows;
     }).catch(() => {
@@ -90,7 +90,7 @@ async function fetchInsTableFromDb() {
 async function fetchClientTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM CLIENTTABLE'
+            'SELECT * FROM CLIENTTABLE ORDER BY ClientID'
         );
         return result.rows;
     }).catch(() => {
@@ -101,7 +101,128 @@ async function fetchClientTableFromDb() {
 async function fetchTicketTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM TICKETTABLE'
+            'SELECT * FROM TICKETTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchOfficerTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM OFFICERTABLE ORDER BY OfficerID'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchTicketLocTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM TICKETLOCTABLE ORDER BY City'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchTicketTypesTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM TICKETTYPESTABLE ORDER BY StatuteCode'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchSpeedingTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM SPEEDINGTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchZoneTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM ZONETABLE ORDER BY SpeedingZone'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchParkingTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM PARKINGTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchTrafficLightTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM TRAFFICLIGHTTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchCourtTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM COURTTABLE ORDER BY Location, Type'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchJudgeTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM JUDGETABLE ORDER BY JudgeID'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchProsecutorTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM PROSECUTORTABLE ORDER BY FirmName, ProsecutorID'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchFirmTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM FIRMTABLE ORDER BY FirmName, Clerk'
         );
         return result.rows;
     }).catch(() => {
@@ -112,29 +233,7 @@ async function fetchTicketTableFromDb() {
 async function fetchCasesTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM CASETABLE'
-        );
-        return result.rows;
-    }).catch(() => {
-        return [];
-    });
-}
-
-
-async function fetchAllTablesFromDb() {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            'SELECT * FROM OFFICERTABLE',
-            'SELECT * FROM TICKETLOCTABLE',
-            'SELECT * FROM TICKETTYPESTABLE',
-            'SELECT * FROM SPEEDINGTABLE',
-            'SELECT * FROM ZONETABLE',
-            'SELECT * FROM PARKINGTABLE',
-            'SELECT * FROM TRAFFICLIGHTTABLE',
-            'SELECT * FROM COURTTABLE',
-            'SELECT * FROM JUDGETABLE',
-            'SELECT * FROM PROSECUTORTABLE',
-            'SELECT * FROM FIRMTABLE',
+            'SELECT * FROM CASETABLE ORDER BY CaseID'
         );
         return result.rows;
     }).catch(() => {
