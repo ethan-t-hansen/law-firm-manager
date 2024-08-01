@@ -79,7 +79,7 @@ async function testOracleConnection() {
 async function fetchInsTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM INSURANCETABLE',
+            'SELECT * FROM INSURANCETABLE ORDER BY ClientID',
         );
         return result.rows;
     }).catch(() => {
@@ -90,7 +90,7 @@ async function fetchInsTableFromDb() {
 async function fetchClientTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM CLIENTTABLE'
+            'SELECT * FROM CLIENTTABLE ORDER BY ClientID'
         );
         return result.rows;
     }).catch(() => {
@@ -101,7 +101,128 @@ async function fetchClientTableFromDb() {
 async function fetchTicketTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM TICKETTABLE'
+            'SELECT * FROM TICKETTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchOfficerTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM OFFICERTABLE ORDER BY OfficerID'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchTicketLocTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM TICKETLOCTABLE ORDER BY City'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchTicketTypesTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM TICKETTYPESTABLE ORDER BY StatuteCode'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchSpeedingTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM SPEEDINGTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchZoneTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM ZONETABLE ORDER BY SpeedingZone'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchParkingTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM PARKINGTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchTrafficLightTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM TRAFFICLIGHTTABLE ORDER BY TicketNum'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchCourtTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM COURTTABLE ORDER BY Location, Type'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchJudgeTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM JUDGETABLE ORDER BY JudgeID'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchProsecutorTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM PROSECUTORTABLE ORDER BY FirmName, ProsecutorID'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchFirmTableFromDb() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM FIRMTABLE ORDER BY FirmName, Clerk'
         );
         return result.rows;
     }).catch(() => {
@@ -112,29 +233,7 @@ async function fetchTicketTableFromDb() {
 async function fetchCasesTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM CASETABLE'
-        );
-        return result.rows;
-    }).catch(() => {
-        return [];
-    });
-}
-
-
-async function fetchAllTablesFromDb() {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            'SELECT * FROM OFFICERTABLE',
-            'SELECT * FROM TICKETLOCTABLE',
-            'SELECT * FROM TICKETTYPESTABLE',
-            'SELECT * FROM SPEEDINGTABLE',
-            'SELECT * FROM ZONETABLE',
-            'SELECT * FROM PARKINGTABLE',
-            'SELECT * FROM TRAFFICLIGHTTABLE',
-            'SELECT * FROM COURTTABLE',
-            'SELECT * FROM JUDGETABLE',
-            'SELECT * FROM PROSECUTORTABLE',
-            'SELECT * FROM FIRMTABLE',
+            'SELECT * FROM CASETABLE ORDER BY CaseID'
         );
         return result.rows;
     }).catch(() => {
@@ -279,9 +378,6 @@ async function initTicketTypesTable() {
         return false;
     });
 }
-
-
-
 
 
 async function initSpeedingTable() {
@@ -467,6 +563,8 @@ async function initCaseTable() {
                 ProsecutorID INT,
                 JudgeID INT,
                 TicketNum INT NOT NULL,
+                ClientID INT NOT NULL,
+                Outcome VARCHAR(25),
                 FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName)
                     ON UPDATE CASCADE,
                 FOREIGN KEY (ProsecutorID) REFERENCES PROSECUTORTABLE(ProsecutorID)
@@ -474,6 +572,8 @@ async function initCaseTable() {
                 FOREIGN KEY (JudgeID) REFERENCES JUDGETABLE(JudgeID)
                     ON UPDATE CASCADE,
                 FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum)
+                    ON UPDATE CASCADE,
+                FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID)
                     ON UPDATE CASCADE,
                 UNIQUE(TicketNum)
             )
@@ -499,13 +599,12 @@ async function initCaseTable() {
 //     });
 // }
 
-async function insertInsTable(PolicyNum, ExpiryDate, ClientID) {
- 
+async function insertCaseTable(CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO INSURANCETABLE(PolicyNum, ExpiryDate, ClientID) 
-            VALUES (:PolicyNum, :ExpiryDate, :ClientID)`,
-            [PolicyNum, ExpiryDate, ClientID],
+            `INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) 
+            VALUES (:CaseID, :DateFiled, :HearingDate, :CourtName, :ProsecutorID, :JudgeID, :TicketNum)`,
+            [CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum],
             { autoCommit: true }
         );
 
@@ -530,202 +629,6 @@ async function insertClientTable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
     });
 }
 
-async function insertOfficerTable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO OFFICERTABLE(OfficerID, Department, Name)
-            VALUES (:OfficerID, :Department, :Name)`,
-            [OfficerID, Department, Name],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-async function insertTicketTable(TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO TICKETTABLE(TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode)
-            VALUES (:TicketNum, :DateIssued, :Amount, :OfficerID, :CaseID, :City, :StatuteCode)`,
-            [TicketNum, DateIssued, Amount, OfficerID, CaseID, City, StatuteCode],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertTicketLocTable(City, County) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO TICKETLOCTABLE(City, County)
-            VALUES (:City, :County)`,
-            [City, County],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertTicketTypesTable(StatuteCode, TicketType) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO TICKETTYPESTABLE(StatuteCode, TicketType)
-            VALUES (:StatuteCode, :TicketType)`,
-            [StatuteCode, TicketType],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-async function insertSpeedingTable(TicketNum, TicketType, SpeedingZone) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO SPEEDINGTABLE (TicketNum, TicketType, SpeedingZone) 
-            VALUES (:TicketNum, :TicketType, :SpeedingZone)`,
-            [TicketNum, TicketType, SpeedingZone],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertZoneTable(SpeedingZone, SpeedLimit) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO ZONETABLE (SpeedingZone, SpeedLimit) 
-            VALUES (:SpeedingZone, :SpeedLimit)`,
-            [SpeedingZone, SpeedLimit],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertParkingTable(TicketNum, ParkingZone) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO PARKINGTABLE (TicketNum, ParkingZone) 
-            VALUES (:TicketNum, :ParkingZone)`,
-            [TicketNum, ParkingZone],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertTrafficLightTable(TicketNum, PhotoURL) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO TRAFFICLIGHTTABLE (TicketNum, PhotoURL) 
-            VALUES (:TicketNum, :PhotoURL)`,
-            [TicketNum, PhotoURL],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertCourtTable(CourtName, Location, Type) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO COURTTABLE (CourtName, Location, Type) 
-            VALUES (:CourtName, :Location, :Type)`,
-            [CourtName, Location, Type],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertJudgeTable(JudgeID, Name, CourtName) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO JUDGETABLE (JudgeID, Name, CourtName) 
-            VALUES (:JudgeID, :Name, :CourtName)`,
-            [JudgeID, Name, CourtName],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertProsecutorTable(ProsecutorID, Name, FirmName, CourtName) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO PROSECUTORTABLE (ProsecutorID, Name, FirmName, CourtName) 
-            VALUES (:ProsecutorID, :Name, :FirmName, :CourtName)`,
-            [ProsecutorID, Name, FirmName, CourtName],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertFirmEmploymentTable(Name, Clerk) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO FIRMTABLE (Name, Clerk) 
-            VALUES (:Name, :Clerk)`,
-            [Name, Clerk],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertCaseTable(CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) 
-            VALUES (:CaseID, :DateFiled, :HearingDate, :CourtName, :ProsecutorID, :JudgeID, :TicketNum)`,
-            [CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
 
 // OG update demoTable fn
 // async function updateNameDemoTable(oldName, newName) {
@@ -742,21 +645,6 @@ async function insertCaseTable(CaseID, DateFiled, HearingDate, CourtName, Prosec
 //     });
 // }
 
-async function updateInsTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE INSURANCETABLE 
-            SET attribute=:newValue 
-            where PolicyNum=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
 
 async function updateClientTable(key, clientAttribute, newValue) {
     
@@ -776,199 +664,6 @@ async function updateClientTable(key, clientAttribute, newValue) {
             return result.rowsAffected && result.rowsAffected > 0;
         }
 
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateOfficerTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE OFFICERTABLE 
-            SET attribute=:newValue 
-            where OfficerID=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateTicketTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE TICKETTABLE 
-            SET attribute=:newValue 
-            where TicketNum=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateTicketLocTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE TICKETLOCTABLE 
-            SET attribute=:newValue 
-            where City=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateTicketTypesTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE TICKETTYPESTABLE 
-            SET attribute=:newValue 
-            where StatuteCode=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-async function updateSpeedingTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE SPEEDINGTABLE 
-            SET attribute=:newValue 
-            where TicketNum=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateZoneTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE ZONETABLE 
-            SET attribute=:newValue 
-            where SpeedingZone=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateParkingTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE PARKIINGTABLE 
-            SET attribute=:newValue 
-            where TicketNum=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateTrafficLightTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE TRAFFICLIGHTTABLE 
-            SET attribute=:newValue 
-            where TicketNum=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateCourtTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE COURTTTABLE 
-            SET attribute=:newValue 
-            where CourtName=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateJudgeTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE JUDGETABLE 
-            SET attribute=:newValue 
-            where JudgeID=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateProsecutorTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE PROSECUTORTABLE 
-            SET attribute=:newValue 
-            where ProsecutorID=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function updateFirmTable(key, attribute, newValue) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE FIRMTABLE 
-            SET attribute=:newValue 
-            where FirmName=:key`,
-            [key, attribute, newValue],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
     });
@@ -1023,58 +718,31 @@ module.exports = {
     fetchClientTableFromDb,
     // fetchAllTablesFromDb,
 
-    // initInsTable,
+    initInsTable,
     initClientTable,
-    // initOfficerTable,
-    // initTicketTable,
-    // initTicketLocTable,
-    // initTicketTypesTable,
-    // initSpeedingTable,
-    // initZoneTable,
-    // initParkingTable,
-    // initTrafficLightTable,
-    // initCourtTable,
-    // initJudgeTable,
-    // initProsecutorTable,
-    // initFirmEmploymentTable,
-    // initCaseTable,
+    initOfficerTable,
+    initTicketTable,
+    initTicketLocTable,
+    initTicketTypesTable,
+    initSpeedingTable,
+    initZoneTable,
+    initParkingTable,
+    initTrafficLightTable,
+    initCourtTable,
+    initJudgeTable,
+    initProsecutorTable,
+    initFirmEmploymentTable,
+    initCaseTable,
     
-    // insertInsTable,
+    
     insertClientTable,
-    // insertOfficerTable,
-    // insertTicketTable,
-    // insertTicketLocTable,
-    // insertTicketTypesTable,
+    insertCaseTable,
 
-
-    // insertSpeedingTable,
-    // insertZoneTable,
-    // insertParkingTable,
-    // insertTrafficLightTable,
-    // insertCourtTable,
-    // insertJudgeTable,
-    // insertProsecutorTable,
-    // insertFirmEmploymentTable,
-    // insertCaseTable,
-
-    // updateInsTable,
+ 
     updateClientTable,
-    // updateOfficerTable,
-    // updateTicketTable,
-    // updateTicketLocTable,
-    // updateTicketTypesTable,
-
-    // updateSpeedingTable,
-    // updateZoneTable,
-    // updateParkingTable,
-    // updateTrafficLightTable,
-    // updateCourtTable,
-    // updateJudgeTable,
-    // updateProsecutorTable,
-    // updateFirmTable,
-    // updateCaseTable,
+    updateCaseTable,
 
     // countDemoTable,
 
-    // deleteCase
+    deleteCase
 };
