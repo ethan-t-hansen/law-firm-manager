@@ -179,7 +179,7 @@ async function initClientTable() {
 	        PhoneNum CHAR(10) NOT NULL,
 	        Name VARCHAR(30) NOT NULL,
 	        Email VARCHAR(30) NOT NULL,
-	        DateOfBirth DATE,
+	        DateOfBirth CHAR(10),
             UNIQUE(Email))`
         );
         return true;
@@ -761,18 +761,21 @@ async function updateInsTable(key, attribute, newValue) {
 async function updateClientTable(key, clientAttribute, newValue) {
     
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE CLIENTTABLE 
-             SET Name = :newValue 
-             WHERE ClientID = :key`,
-            {
-                newValue: newValue,
-                key: key
-            },
-            { autoCommit: true }
-        );
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        if (clientAttribute === "DateOfBirth") {
+            result = await connection.execute(
+                `UPDATE CLIENTTABLE 
+                 SET DateOfBirth = :newValue 
+                 WHERE ClientID = :key`,
+                {
+                    newValue: newValue,
+                    key: key
+                },
+                { autoCommit: true }
+            );
+            return result.rowsAffected && result.rowsAffected > 0;
+        }
+
     }).catch(() => {
         return false;
     });

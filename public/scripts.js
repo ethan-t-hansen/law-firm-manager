@@ -80,14 +80,6 @@ async function resetClients() {
     }
 }
 
-function formatDateForOracle(dateStr) {
-    // Convert the date string (YYYY-MM-DD) to Oracle's expected format (DD-MON-YYYY)
-    const date = new Date(dateStr);
-    const day = ('0' + date.getDate()).slice(-2);
-    const month = date.toLocaleString('en-us', { month: 'short' }).toUpperCase();
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-}
 
 // Inserts new records into the demotable.
 async function insertClient(event) {
@@ -111,7 +103,7 @@ async function insertClient(event) {
             phonenum: phoneValue,
             name: nameValue,
             email: emailValue,
-            dateofbirth: formatDateForOracle(dobValue),
+            dateofbirth: dobValue,
         })
     });
 
