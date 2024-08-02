@@ -1,3 +1,4 @@
+
 const oracledb = require('oracledb');
 const loadEnvFile = require('./utils/envUtil');
 
@@ -476,10 +477,11 @@ async function updateCaseTable(key, caseAttribute, newValue) {
 
 async function deleteCase(caseID) {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(`
-            DELETE FROM CASETABLE
-            WHERE CaseID = :caseID
-        `, [recipeID]);
+        const result = await connection.execute(
+            `DELETE FROM CASETABLE
+            WHERE CaseID = :caseID`,
+            {CaseID: caseID } // Bind parameter
+        );
         await connection.commit();
         return result.rowsAffected;
     }).catch((err) => {
@@ -491,7 +493,18 @@ async function deleteCase(caseID) {
 // TODO: *not sure about params
 // TODO:                    async function select(table, textinput) 
 // TODO:                    async function project(table, attributes)
-// TODO:                    async function joinClientTicket(clientID)
+
+async function joinClientTicket(clientID) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT * FROM CASETABLE cs, CLIENTTABLE c WHERE cs.ClientID = c.ClientID AND c.CLIENTID = clientID'
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 // TODO aggregation:        async function countOutcomes(courtName) 
 // TODO having aggregation: async function repeatcustomers(numtickets)
 // TODO                     async function nestedaggregation(?)
