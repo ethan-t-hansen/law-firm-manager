@@ -196,7 +196,7 @@ CREATE TABLE INSURANCETABLE(
     PolicyNum INT,
     ExpiryDate Varchar(30) NOT NULL,
     ClientID INT,
-    FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID),
+    FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID) ON DELETE CASCADE,
     PRIMARY KEY (PolicyNum, ClientID)
 );
 
@@ -218,9 +218,9 @@ CREATE TABLE TICKETTABLE(
     OfficerID INT NOT NULL,
     City VARCHAR(30),
     StatuteCode INT,
-    FOREIGN KEY (OfficerID) REFERENCES OFFICERTABLE(OfficerID),
-    FOREIGN KEY (City) REFERENCES TICKETLOCTABLE(City),
-    FOREIGN KEY (StatuteCode) REFERENCES TICKETTYPESTABLE(StatuteCode)
+    FOREIGN KEY (OfficerID) REFERENCES OFFICERTABLE(OfficerID)  ON DELETE CASCADE,
+    FOREIGN KEY (City) REFERENCES TICKETLOCTABLE(City) ON DELETE CASCADE,
+    FOREIGN KEY (StatuteCode) REFERENCES TICKETTYPESTABLE(StatuteCode) ON DELETE CASCADE
 );
 
 CREATE TABLE ZONETABLE(
@@ -258,11 +258,11 @@ CREATE TABLE CASETABLE(
     TicketNum INT NOT NULL,
     ClientID INT NOT NULL,
     Outcome VARCHAR(25),
-    FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName),
-    FOREIGN KEY (ProsecutorID) REFERENCES PROSECUTORTABLE(ProsecutorID),
-    FOREIGN KEY (JudgeID) REFERENCES JUDGETABLE(JudgeID),
-    FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum),
-    FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID),
+    FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName) ON DELETE CASCADE,
+    FOREIGN KEY (ProsecutorID) REFERENCES PROSECUTORTABLE(ProsecutorID) ON DELETE CASCADE,
+    FOREIGN KEY (JudgeID) REFERENCES JUDGETABLE(JudgeID) ON DELETE CASCADE,
+    FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum) ON DELETE CASCADE,
+    FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID) ON DELETE CASCADE,
     UNIQUE(TicketNum)
 );
 
@@ -442,7 +442,6 @@ VALUES('Byron White Courthouse', 'Seattle', 'Civil');
 INSERT INTO COURTTABLE (CourtName, Location, Type)
 VALUES ('Richard C. Lee Courthouse', 'Seattle', 'Civil');
 
-
 INSERT INTO JUDGETABLE (JudgeID, Name, CourtName)
 VALUES (1, 'Greg Johnson', 'King County Courthouse');
 
@@ -492,7 +491,7 @@ VALUES (4, 'Jennifer Adams', 'Adams and Partners', 'Byron White Courthouse');
 INSERT INTO PROSECUTORTABLE (ProsecutorID, Name, FirmName, CourtName)
 VALUES (5, 'Daniel Harris', 'Harris Law Group', 'Richard C. Lee Courthouse');
 
-
+-- add more cases so that outcome aggregation makes sense
 INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
 VALUES (101, '2024-01-25', '2024-08-10', 'King County Courthouse', 1, 1, 1, 1, 'dismissed');
 
