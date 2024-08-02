@@ -488,6 +488,16 @@ async function deleteCase(caseID) {
     });
 }
 
+// TODO: *not sure about params
+// TODO:                    async function select(table, textinput) 
+// TODO:                    async function project(table, attributes)
+// TODO:                    async function joinClientTicket(clientID)
+// TODO aggregation:        async function countOutcomes(courtName) 
+// TODO having aggregation: async function repeatcustomers(numtickets)
+// TODO                     async function nestedaggregation(?)
+// TODO                     async function division(?)
+
+
 // async function countDemoTable() {
 //     return await withOracleDB(async (connection) => {
 //         const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
