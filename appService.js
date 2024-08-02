@@ -77,6 +77,10 @@ async function testOracleConnection() {
     });
 }
 
+// ----------------------------------------------------------
+
+
+
 async function fetchInsTableFromDb() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -521,7 +525,10 @@ async function joinClientTicket(clientID) {
 // }
 
 module.exports = {
+
     testOracleConnection,
+    populateTables,
+
     fetchInsTableFromDb,
     fetchClientTableFromDb,
     fetchTicketTableFromDb,

@@ -58,29 +58,9 @@ tr:hover {
     cursor: pointer;
 }
 
-button {
-    background-color: rgb(24, 110, 249);
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    outline: none;
-}
-
 input {
     border: solid 1px rgb(172, 178, 185);
     
-}
-
-button:hover {
-    background-color: rgb(22, 87, 207);
-}
-
-button:active {
-    background-color: rgb(12, 67, 187);
 }
 
 /* OTHER STYLES */

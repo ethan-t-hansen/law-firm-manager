@@ -36,6 +36,7 @@ router.post("/initiate-clienttable", async (req, res) => {
 //Get all Clients
 router.get('/clienttable', async (req, res) => {
     const tableContent = await appService.fetchClientTableFromDb();
+    // console.log(tableContent);
     res.json({data: tableContent});
 });
 
@@ -84,9 +85,6 @@ router.get('/instable', async (req, res) => {
     res.json({data: tableContent});
 });
 
-
-
-
 //Get all Tickets
 router.get('/tickettable', async (req, res) => {
     const tableContent = await appService.fetchTicketTableFromDb();
@@ -100,14 +98,10 @@ router.get('/casetable', async (req, res) => {
 });
 
 
-// router.post("/initiate-demotable", async (req, res) => {
-//     const initiateResult = await appService.initiateDemotable();
-//     if (initiateResult) {
-//         res.json({ success: true });
-//     } else {
-//         res.status(500).json({ success: false });
-//     }
-// });
+
+
+
+{/* ------------------------------ CASE ------------------------------ */}
 
 //Init case table
 router.post("/initiate-casetable", async (req, res) => {
@@ -163,8 +157,6 @@ router.post("/insert-casetable", async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
-
-
 
 // router.post("/update-name-demotable", async (req, res) => {
 //     const { oldName, newName } = req.body;

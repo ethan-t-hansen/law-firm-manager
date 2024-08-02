@@ -23,7 +23,7 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="view-entities.html">View / Edit Tables</a></li>
-            <li><a href="create-entities.html">Add New Entities</a></li>
+            <li><a href="manage-cases.html">Manage Cases</a></li>
         </ul>
 
            <!-- ===================================================================================== -->
@@ -41,20 +41,32 @@
 
     <br><hr><br> <!-- ========================================================================= -->
 
-    <!-- Show 'Demotable'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
+        
+        <form id="selectTable" class="flex flex-col w-fit space-y-4 px-8">
+            <h2 class="text-xl font-bold">
+                Choose Table:
+            </h2>
+            <select name="tables" id="selectTableValue" class="pr-12 pl-2 py-2 border border-gray-400 rounded-md" required>
+                <option value="Client">Client</option>
+                <option value="Case">Case</option>
+                <option value="Ticket">Ticket</option>
+                <option value="Insurnace">Insurance</option>
+            </select>
+            <button class="py-1 text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700" type="submit"> Fetch Data </button>
+        </form>
+
+    
 
     <div class="px-8">
-        <h2> View All Entities </h2>
         <table id="entityTable" border="1">
             <thead>
                 <tr>
-                    <!--Table head, need to be adjusted accordingly to align with your own.-->
+                    <!-- Table head, need to be adjusted accordingly to align with your own.
                     <th>Client ID</th>
                     <th>Phone Number</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Date of Birth</th>
+                    <th>Date of Birth</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -64,20 +76,9 @@
 
     <br><hr><br> <!-- ========================================================================= -->
 
-    <div class="px-8">
-        <h2>Reset Table</h2>
-        <p>Press the button to clear all data in the table. Run this function on first load as well.</p>
-        <button id="resetEntities"> reset </button> <br>
-        <!-- A placeholder to display messages related to the reset operation. -->
-        <div id="resetResultMsg"></div>
-    </div>
-
-    <br><hr><br> <!-- ========================================================================= -->
-
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
-    <script src="scripts.js"></script>
-
+    <script src="viewentities-scripts.js"></script>
         
     </body>
 </html>
