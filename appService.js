@@ -527,7 +527,6 @@ async function joinClientTicket(clientID) {
 module.exports = {
 
     testOracleConnection,
-    populateTables,
 
     fetchInsTableFromDb,
     fetchClientTableFromDb,
@@ -544,9 +543,11 @@ module.exports = {
     fetchProsecutorTableFromDb,
     fetchFirmTableFromDb,
     fetchCasesTableFromDb,
+
     insertCaseTable,
-    insertClientTable,
-    updateClientTable,
     updateCaseTable,
     deleteCase,
+
+    insertClientTable,
+    updateClientTable,
 };

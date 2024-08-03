@@ -32,27 +32,37 @@ async function checkDbConnection() {
         statusElem.textContent = text;
     })
     .catch((error) => {
-        statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        statusElem.textContent = 'Connection timed out';  // Adjust error handling if required.
     });
 }
 
 {/* ------------------------------ ALL ENTITIES ------------------------------ */}
 
+const headers = {
+    Client: ["Client ID", "Phone Number", "Name", "Email", "Date Of Birth"],
+    Case: ["Case ID", "Date Filed", "Hearing Date", "Court Name", "Prosecutor ID", "Judge ID", "Ticket Num", "Client ID", "Outcome"]
+}
+
 // Fetches data from the client table and displays it.
 async function fetchAndDisplayEntities() {
 
     const tableToFetch = document.getElementById('selectTableValue').value;
-    
+
+    const tableHeaders = document.getElementById('tableHeaders');
+
     const tableElement = document.getElementById('entityTable');
     const tableBody = tableElement.querySelector('tbody');
 
     let routeToFetch = '';
+    let headerData = [];
 
     switch (tableToFetch) {
         case "Client":
+            headerData = headers.Client;
             routeToFetch = '/clienttable';
             break;
         case "Case":
+            headerData = headers.Case;
             routeToFetch = '/casetable';
             break;
         case "Ticket":
@@ -64,7 +74,6 @@ async function fetchAndDisplayEntities() {
         default:
             return;
     }
-    
 
     const response = await fetch(routeToFetch, {
         method: 'GET'
@@ -78,9 +87,20 @@ async function fetchAndDisplayEntities() {
         tableBody.innerHTML = '';
     }
 
-    tableContent.forEach(user => {
+    if (tableHeaders) {
+        tableHeaders.innerHTML = '';
+    }
+
+    headerData.forEach((element, index) => {
+        let headerCell = document.createElement("th")
+        headerCell.textContent = element;
+        tableHeaders.appendChild(headerCell)
+        }
+    )
+
+    tableContent.forEach(item => {
         const row = tableBody.insertRow();
-        user.forEach((field, index) => {
+        item.forEach((field, index) => {
             const cell = row.insertCell(index);
             cell.textContent = field;
         });

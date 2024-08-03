@@ -12,6 +12,10 @@ body {
 
 /* AdditionalCSS */
 
+th {
+    text-align: left;
+}
+
 ul {
     border-bottom: 1px solid lightgrey;
     display: flex;
