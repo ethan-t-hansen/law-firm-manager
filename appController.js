@@ -33,13 +33,6 @@ router.post("/initiate-clienttable", async (req, res) => {
     }
 });
 
-//Get all Clients
-router.get('/clienttable', async (req, res) => {
-    const tableContent = await appService.fetchClientTableFromDb();
-    // console.log(tableContent);
-    res.json({data: tableContent});
-});
-
 // Insert Client Table
 router.post("/insert-clienttable", async (req, res) => {
     const { clientid, phonenum, name, email, dateofbirth } = req.body;
@@ -85,21 +78,91 @@ router.get('/instable', async (req, res) => {
     res.json({data: tableContent});
 });
 
+//Get all Clients
+router.get('/clienttable', async (req, res) => {
+    const tableContent = await appService.fetchClientTableFromDb();
+    // console.log(tableContent);
+    res.json({data: tableContent});
+});
+
 //Get all Tickets
 router.get('/tickettable', async (req, res) => {
     const tableContent = await appService.fetchTicketTableFromDb();
     res.json({data: tableContent});
 });
 
+//Get all Officers
+router.get('/officertable', async (req, res) => {
+    const tableContent = await appService.fetchOfficerTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all Ticket Locations
+router.get('/ticketloctable', async (req, res) => {
+    const tableContent = await appService.fetchTicketLocTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all Ticket Types
+router.get('/tickettypestable', async (req, res) => {
+    const tableContent = await appService.fetchTicketTypesTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all Speedings
+router.get('/speedingtable', async (req, res) => {
+    const tableContent = await appService.fetchSpeedingTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all zones
+router.get('/zonetable', async (req, res) => {
+    const tableContent = await appService.fetchZoneTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all parking tickets
+router.get('/parkingtable', async (req, res) => {
+    const tableContent = await appService.fetchParkingTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all traffic light tickets
+router.get('/trafficlighttable', async (req, res) => {
+    const tableContent = await appService.fetchTrafficLightTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all Courts
+router.get('/courttable', async (req, res) => {
+    const tableContent = await appService.fetchCourtTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all Judges
+router.get('/judgetable', async (req, res) => {
+    const tableContent = await appService.fetchJudgeTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all Prosecutors
+router.get('/prosecutortable', async (req, res) => {
+    const tableContent = await appService.fetchProsecutorTableFromDb();
+    res.json({data: tableContent});
+});
+
+//Get all Firms
+router.get('/firmtable', async (req, res) => {
+    const tableContent = await appService.fetchFirmTableFromDb();
+    res.json({data: tableContent});
+});
+
+
 //Get all Cases
 router.get('/casetable', async (req, res) => {
     const tableContent = await appService.fetchCasesTableFromDb();
     res.json({data: tableContent});
 });
-
-
-
-
 
 {/* ------------------------------ CASE ------------------------------ */}
 

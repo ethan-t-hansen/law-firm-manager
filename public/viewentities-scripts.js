@@ -28,21 +28,32 @@ async function checkDbConnection() {
     statusElem.style.display = 'inline';
 
     response.text()
-    .then((text) => {
-        statusElem.textContent = text;
-    })
-    .catch((error) => {
-        statusElem.textContent = 'Connection timed out';  // Adjust error handling if required.
-    });
+        .then((text) => {
+            statusElem.textContent = text;
+        })
+        .catch((error) => {
+            statusElem.textContent = 'Connection timed out';  // Adjust error handling if required.
+        });
 }
 
-{/* ------------------------------ ALL ENTITIES ------------------------------ */}
+{/* ------------------------------ ALL ENTITIES ------------------------------ */ }
 
 const headers = {
     Client: ["Client ID", "Phone Number", "Name", "Email", "Date Of Birth"],
     Case: ["Case ID", "Date Filed", "Hearing Date", "Court Name", "Prosecutor ID", "Judge ID", "Ticket Num", "Client ID", "Outcome"],
     Ticket: ["Ticket Number", "Date Issued", "Amount", "Officer ID", "City", "Statute Code"],
-    Insurance: ["Policy Number", "Expiry Date", "Client ID"]
+    Officer: ["Officer ID", "Department", "Name"],
+    Insurance: ["Policy Number", "Expiry Date", "Client ID"],
+    Court: ["Name", "Location", "Type"],
+    Judge: ["Judge ID", "Name", "Court Name"],
+    Prosecutor: ["Prosecutor ID", "Name", "Firm Name", "Court Name"],
+    FirmEmployment: ["Firm", "Clerk"],
+    TicketLocation: ["City", "County"],
+    TicketTypes: ["Statute Code", "Ticket Type"],
+    Speeding: ["Ticket Number", "Speed", "Speeding Zone"],
+    ZoneLimits: ["Speeding Zone", "Limit"],
+    Parking: ["Ticket Number", "Parking Zone"],
+    TrafficLight: ["Ticket Number", "Photo URL"],
 }
 
 // Fetches data from the client table and displays it.
@@ -69,12 +80,60 @@ async function fetchAndDisplayEntities() {
             break;
         case "Ticket":
             headerData = headers.Ticket;
-            routeToFetch= '/tickettable';
+            routeToFetch = '/tickettable';
             break;
         case "Insurance":
             headerData = headers.Insurance;
-            routeToFetch= '/instable';
+            routeToFetch = '/instable';
             break;
+        case "Officer":
+            
+            headerData = headers.Officer;
+            routeToFetch = '/officertable';
+
+            break;
+        case "TicketLocation":
+            headerData = headers.TicketLocation;
+            routeToFetch = '/ticketloctable';
+            break;
+        case "TicketTypes":
+            headerData = headers.TicketTypes;
+            routeToFetch = '/tickettypestable';
+            break;
+        case "Speeding":
+            headerData = headers.Speeding;
+            routeToFetch = '/speedingtable';
+            break;
+        case "ZoneLimits":
+            headerData = headers.ZoneLimits;
+            routeToFetch = '/zonelimitstable';
+            break;
+        case "Parking":
+            headerData = headers.Parking;
+            routeToFetch = '/parkingtable';
+            break;
+        case "TrafficLight":
+            headerData = headers.TrafficLight;
+            routeToFetch = '/trafficlighttable';
+            break;
+        case "Court":
+            headerData = headers.Court;
+            routeToFetch = '/courttable';
+            break;
+        case "Judge":
+            headerData = headers.Judge;
+            routeToFetch = '/judgetable';
+            break;
+        case "Prosecutor":
+            headerData = headers.Prosecutor;
+            routeToFetch = '/prosecutortable';
+            break;
+        case "FirmEmployment":
+            headerData = headers.FirmEmployment;
+            routeToFetch = '/firmtable';
+            break;
+        default:
+            console.error("Invalid relation type");
     }
 
     const response = await fetch(routeToFetch, {
@@ -97,7 +156,7 @@ async function fetchAndDisplayEntities() {
         let headerCell = document.createElement("th")
         headerCell.textContent = element;
         tableHeaders.appendChild(headerCell)
-        }
+    }
     )
 
     tableContent.forEach(item => {
@@ -109,7 +168,7 @@ async function fetchAndDisplayEntities() {
     });
 }
 
-{/* ------------------------------ CLIENTS ------------------------------ */}
+{/* ------------------------------ CLIENTS ------------------------------ */ }
 
 // // Fetches data from the client table and displays it.
 // async function fetchAndDisplayClients() {
@@ -227,7 +286,7 @@ async function fetchAndDisplayEntities() {
 //     }
 // }
 
-function submitForm(event){
+function submitForm(event) {
     event.preventDefault();
     fetchAndDisplayEntities();
 }
@@ -235,7 +294,7 @@ function submitForm(event){
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
-window.onload = function() {
+window.onload = function () {
     checkDbConnection();
     // fetchTableData();
 
@@ -243,7 +302,7 @@ window.onload = function() {
     // document.getElementById("resetClients").addEventListener("click", resetClients);
     // document.getElementById("insertClient").addEventListener("submit", insertClient);
     // document.getElementById("updateClient").addEventListener("submit", updateClient);
-    
+
 };
 
 // General function to refresh the displayed table data. 
