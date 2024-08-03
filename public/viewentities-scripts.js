@@ -40,7 +40,9 @@ async function checkDbConnection() {
 
 const headers = {
     Client: ["Client ID", "Phone Number", "Name", "Email", "Date Of Birth"],
-    Case: ["Case ID", "Date Filed", "Hearing Date", "Court Name", "Prosecutor ID", "Judge ID", "Ticket Num", "Client ID", "Outcome"]
+    Case: ["Case ID", "Date Filed", "Hearing Date", "Court Name", "Prosecutor ID", "Judge ID", "Ticket Num", "Client ID", "Outcome"],
+    Ticket: ["Ticket Number", "Date Issued", "Amount", "Officer ID", "City", "Statute Code"],
+    Insurance: ["Policy Number", "Expiry Date", "Client ID"]
 }
 
 // Fetches data from the client table and displays it.
@@ -66,13 +68,13 @@ async function fetchAndDisplayEntities() {
             routeToFetch = '/casetable';
             break;
         case "Ticket":
+            headerData = headers.Ticket;
             routeToFetch= '/tickettable';
             break;
         case "Insurance":
+            headerData = headers.Insurance;
             routeToFetch= '/instable';
             break;
-        default:
-            return;
     }
 
     const response = await fetch(routeToFetch, {

@@ -76,7 +76,7 @@ router.post("/update-client", async (req, res) => {
 });
 
 
-{/* ------------------------------ [ENTITY NAME] ------------------------------ */}
+{/* ------------------------------ FETCH DATA FUNCTIONS ------------------------------ */}
 
 
 //Get all Insurance
