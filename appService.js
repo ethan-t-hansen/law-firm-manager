@@ -534,8 +534,25 @@ async function groupByOutcomes() {
     });
 }
 
+// shows a table of clients that have a certain number of tickets, specified by user input
+async function showRepeatClients(numtickets) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT Name, COUNT(TicketNum) AS NumberOfTickets
+            FROM CLIENTTABLE cl, CASETABLE ca
+            WHERE cl.ClientID = ca.ClientID
+            GROUP BY cl.Name
+            HAVING COUNT(TicketNum) > :numtickets`,
+            [numtickets],
+            { autoCommit: true }
+        );
 
-// TODO having aggregation: async function repeatcustomers(numtickets)
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 // TODO                     async function nestedaggregation(?)
 // TODO                     async function division(?)
 
