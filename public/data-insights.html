@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head - styles, script, title -->
+
+<head>
+
+    <!-- START SCRIPT: sh ./remote-start.sh -->
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CS304 Group 10 Project</title>
+
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdn.tailwindcss.com#.js"></script>
+
+</head>
+
+
+<!-- Body - content -->
+
+<body>
+
+    <!-- Nav Bar -->
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="view-entities.html">View Tables</a></li>
+        <li><a href="manage-cases.html">Manage Cases</a></li>
+        <li><a href="data-insights.html">Data Insights</a></li>
+    </ul>
+
+    <!-- ===================================================================================== -->
+
+    <!-- DB Connection -->
+    <div id="dbConnectionResult" class="pt-8 px-8">
+        <h1 class="font-bold">Database Connection Status:
+            <span class="font-normal text-green-500" id="dbStatus"> </span>
+            <img id="loadingGif" class="loading-gif w-8 h-auto" src="loading_100px.gif" alt="Loading...">
+        </h1>
+
+    </div>
+
+    <br>
+    <hr> <!-- ========================================================================= -->
+    <br>
+
+    <!-- Visualized table -->
+    <div class="px-8 py-4">
+        <table id="dataTable" border="1">
+            <thead>
+                <tr id="tableHeaders">
+                    <!-- Data will be dynamically appended to this element based on selection-->
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <hr> <!-- ========================================================================= -->
+    <br>
+
+    <div class="flex flex-row h-fit">
+        <div class="px-8 space-y-4">
+            <h2 class="font-bold">Average Ticket Fee by Statute</h2>
+
+            <button id="avgPrice"
+                class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+                > Fetch Data </button> <br>
+
+            <div id="avgPriceMsg"></div>
+        </div>
+
+        <div class="flex flex-col px-8 space-y-4">
+            <h2 class="font-bold">View Client, Case & Ticket by City</h2>
+            <form id="joinClientCase">
+                <select id="joinClientCaseCity" class="w-fit border border-slate-500 rounded-md px-1 pr-3 py-1">
+                    <option value="Vancouver">Vancouver</option>
+                    <option value="Seattle">Seattle</option>
+                    <option value="Bellingham">Bellingham</option>
+                    <option value="Tacoma">Tacoma</option>
+                </select>
+                <button
+                    class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+                    type="submit"> Fetch Data </button> <br>
+            </form>
+            <div id="joinClientCaseMsg"></div>
+        </div>
+    </div>
+
+    <!-- JS script file -->
+    <script src="datainsights-scripts.js"></script>
+
+</body>
+
+</html>

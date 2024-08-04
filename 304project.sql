@@ -361,40 +361,40 @@ VALUES ('Highway, Crew Working', 70);
 
 -- Correct TICKETTABLE data
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (1, '2024-07-21', 150.00, 1, 'Seattle', 123);
+VALUES (1, '2024-07-21', 165.00, 1, 'Seattle', 123);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
 VALUES (2, '2024-07-20', 100.00, 2, 'Seattle', 125);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (6, '2024-07-19', 200.00, 3, 'Tacoma', 127);
+VALUES (6, '2024-07-19', 190.00, 3, 'Tacoma', 127);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (7, '2024-07-18', 120.00, 4, 'Bellingham', 128);
+VALUES (7, '2024-07-18', 78.00, 4, 'Bellingham', 128);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (8, '2024-07-18', 120.00, 4, 'Bellingham', 128);
+VALUES (8, '2024-07-18', 84.00, 4, 'Bellingham', 128);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
 VALUES (9, '2024-07-18', 120.00, 4, 'Bellingham', 128);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (10, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+VALUES (10, '2024-07-17', 109.00, 5, 'Vancouver', 128);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (11, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+VALUES (11, '2024-07-17', 90.00, 5, 'Vancouver', 123);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (12, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+VALUES (12, '2024-07-17', 171.00, 5, 'Vancouver', 124);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (13, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+VALUES (13, '2024-07-17', 180.00, 5, 'Vancouver', 125);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (14, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+VALUES (14, '2024-07-17', 145.00, 5, 'Vancouver', 129);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (15, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+VALUES (15, '2024-07-17', 132.00, 5, 'Vancouver', 129);
 
 
 INSERT INTO PARKINGTABLE (TicketNum, ParkingZone)

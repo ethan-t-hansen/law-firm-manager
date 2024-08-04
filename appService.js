@@ -373,15 +373,13 @@ async function deleteCase(caseID) {
 async function joinClientCase(city) {
     return await withOracleDB(async (connection) => {
 
-        const temp = 'Vancouver';
-
         const result = await connection.execute(
-            `SELECT * 
+            `SELECT cs.CaseID, cs.DateFiled, cs.HearingDate, cs.CourtName, cs.Outcome, c.ClientID, c.Name, c.Email, c.PhoneNum, t.TicketNum, t.City
              FROM CASETABLE cs, CLIENTTABLE c, TICKETTABLE t
-             WHERE cs.ClientID = c.ClientID AND t.ticketnum = cs.ticketnum AND t.city = city`,
-            { city: temp }
+             WHERE cs.ClientID = c.ClientID AND t.ticketnum = cs.ticketnum AND t.city = :city`,
+            { city: city }
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
@@ -427,18 +425,17 @@ async function getRepeatClients(numtickets) {
 async function pricePerStatute() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `SELECT AVG(Amount) FROM TICKETTABLE t1
+            `SELECT StatuteCode, AVG(Amount) as AverageFee FROM TICKETTABLE t1
             GROUP BY StatuteCode
             HAVING 1 < (SELECT COUNT(*)  FROM TICKETTABLE t2
-            WHERE t1.StatuteCode = t2.StatuteCode) `,
-            { autoCommit: true }
+            WHERE t1.StatuteCode = t2.StatuteCode) `
         );
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        return result;
+        // return result.rows;
     }).catch(() => {
-        return false;
+        return [];
     });
-
 }
 
 // find officer that gave all tickets in user-specified location

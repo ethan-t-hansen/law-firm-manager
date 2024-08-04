@@ -209,5 +209,19 @@ router.post("/join-client-ticket", async (req, res) => {
     console.log("Joining where city is " + city)
 });
 
+{/* ------------------------------ ADVANCED QUERIES ------------------------------ */}
+
+
+router.get('/priceperstatute', async (req, res) => {
+    const tableContent = await appService.pricePerStatute();
+    res.json({data: tableContent});
+});
+
+router.get('/joinclientcase', async (req, res) => {
+    const city = req.query.city;
+    const tableContent = await appService.joinClientCase(city);
+    res.json({data: tableContent});
+});
+
 
 module.exports = router;
