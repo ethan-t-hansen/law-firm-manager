@@ -210,18 +210,32 @@ router.post("/join-client-ticket", async (req, res) => {
 });
 
 {/* ------------------------------ ADVANCED QUERIES ------------------------------ */}
-
-
-router.get('/priceperstatute', async (req, res) => {
-    const tableContent = await appService.pricePerStatute();
-    res.json({data: tableContent});
-});
-
 router.get('/joinclientcase', async (req, res) => {
     const city = req.query.city;
     const tableContent = await appService.joinClientCase(city);
     res.json({data: tableContent});
 });
 
+router.get('/viewoutcomes', async (req, res) => {
+    const tableContent = await appService.groupByOutcomes();
+    res.json({data: tableContent});
+});
+
+router.get('/priceperstatute', async (req, res) => {
+    const tableContent = await appService.pricePerStatute();
+    res.json({data: tableContent});
+});
+
+router.get('/clientnumtickets', async (req, res) => {
+    const numtickets = req.query.numtickets;
+    const tableContent = await appService.getRepeatClients(numtickets);
+    res.json({data: tableContent});
+});
+
+router.get('/allTicketsInCity', async (req, res) => {
+    const city = req.query.city;
+    const tableContent = await appService.getOfficerWithAllTicketsInCity(city);
+    res.json({data: tableContent});
+});
 
 module.exports = router;

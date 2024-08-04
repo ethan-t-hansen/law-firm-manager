@@ -74,8 +74,6 @@ async function testOracleConnection() {
 
 
 
-
-
 // FETCH FUNCTIONS --------------------------------------------------------------------------------
 
 async function fetchInsTableFromDb() {
@@ -391,11 +389,9 @@ async function groupByOutcomes() {
         const result = await connection.execute(
             `SELECT Outcome, COUNT(Outcome) AS TotalTimes
             FROM CASETABLE
-            GROUP BY Outcome`,
-            { autoCommit: true }
+            GROUP BY Outcome`
         );
-
-        return result.rowsAffected && result.rowsAffected > 0;
+        return result;
     }).catch(() => {
         return false;
     });
@@ -410,11 +406,10 @@ async function getRepeatClients(numtickets) {
             WHERE cl.ClientID = ca.ClientID
             GROUP BY cl.Name
             HAVING COUNT(TicketNum) > :numtickets`,
-            [numtickets],
-            { autoCommit: true }
+            [numtickets]
         );
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        return result;
     }).catch(() => {
         return false;
     });
@@ -451,7 +446,7 @@ async function getOfficerWithAllTicketsInCity(city) {
             	SELECT COUNT(*) 
             	FROM TICKETTABLE
             	WHERE City = :city)`,
-            [city],
+            [city, city],
             { autoCommit: true }
         );
 
@@ -460,16 +455,6 @@ async function getOfficerWithAllTicketsInCity(city) {
         return false;
     });
 }
-
-
-// async function countDemoTable() {
-//     return await withOracleDB(async (connection) => {
-//         const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
-//         return result.rows[0][0];
-//     }).catch(() => {
-//         return -1;
-//     });
-// }
 
 module.exports = {
 

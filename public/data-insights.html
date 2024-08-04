@@ -65,7 +65,10 @@
 
     <div class="flex flex-row h-fit">
         <div class="px-8 space-y-4">
-            <h2 class="font-bold">Average Ticket Fee by Statute</h2>
+            <div class="space-y-1">
+                <h2 class="font-bold">Average Ticket Fee by Statute</h2>
+                <p class="text-sm"> (Join with WHERE) </p>
+            </div>
 
             <button id="avgPrice"
                 class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
@@ -75,8 +78,11 @@
         </div>
 
         <div class="flex flex-col px-8 space-y-4">
-            <h2 class="font-bold">View Client, Case & Ticket by City</h2>
-            <form id="joinClientCase">
+            <div class="space-y-1">
+                <h2 class="font-bold">View Client, Case & Ticket by City</h2>
+                <p class="text-sm"> (Nested Aggregation) </p>
+            </div>
+            <form id="joinClientCase" class="flex flex-col space-y-4">
                 <select id="joinClientCaseCity" class="w-fit border border-slate-500 rounded-md px-1 pr-3 py-1">
                     <option value="Vancouver">Vancouver</option>
                     <option value="Seattle">Seattle</option>
@@ -88,6 +94,53 @@
                     type="submit"> Fetch Data </button> <br>
             </form>
             <div id="joinClientCaseMsg"></div>
+        </div>
+
+        <div class="px-8 space-y-4">
+            <div class="space-y-1">
+                <h2 class="font-bold">View Outcomes</h2>
+                <p class="text-sm"> (Aggregation with GROUPBY) </p>
+            </div>
+
+            <button id="viewOutcomes"
+                class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+                > Fetch Data </button> <br>
+
+            <div id="outcomesMsg"></div>
+        </div>
+
+        <div class="flex flex-col px-8 space-y-4">
+            <div class="space-y-1">
+                <h2 class="font-bold">View Clients by # of Tickets</h2>
+                <p class="text-sm"> (Aggregation with HAVING) </p>
+            </div>
+
+            <form id="clientNumTickets" class="flex flex-col space-y-4">
+                <input id="minNumTickets" class="border border-slate-500 rounded-md px-2" placeholder="Min. # of Tickets">
+                <button
+                    class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+                    type="submit"> Fetch Data </button> <br>
+            </form>
+            <div id="numTicketsMsg"></div>
+        </div>
+
+        <div class="flex flex-col px-8 space-y-4">
+            <div class="space-y-1">
+                <h2 class="font-bold">Cops who have given all tickets in a city</h2>
+                <p class="text-sm"> (Division) </p>
+            </div>
+            <form id="allTickets" class="flex flex-col space-y-4">
+                <select id="allTicketsCity" class="w-fit border border-slate-500 rounded-md px-1 pr-3 py-1">
+                    <option value="Vancouver">Vancouver</option>
+                    <option value="Seattle">Seattle</option>
+                    <option value="Bellingham">Bellingham</option>
+                    <option value="Tacoma">Tacoma</option>
+                </select>
+                <button
+                    class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+                    type="submit"> Fetch Data </button> <br>
+            </form>
+            <div id="allTicketsMsg"></div>
         </div>
     </div>
 

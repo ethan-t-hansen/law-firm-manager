@@ -22,8 +22,6 @@ async function checkDbConnection() {
     });
 }
 
-
-
 async function fetchAndDisplayData(responseData) {
 
     const tableHeaders = document.getElementById('tableHeaders');
@@ -108,6 +106,75 @@ async function getClientCase(e) {
 
 }
 
+async function getOutcomeRates(e) {
+
+    e.preventDefault();
+
+    const response = await fetch(`/viewoutcomes`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    fetchAndDisplayData(responseData);
+
+    const messageElement = document.getElementById('outcomesMsg');
+
+    if (responseData.data) {
+        messageElement.textContent = "Data retrieved successfully!";
+    } else {
+        messageElement.textContent = "Error retrieving data";
+    }
+
+}
+
+async function getClientNumTickets(e) {
+
+    e.preventDefault();
+
+    const numtickets = document.getElementById('minNumTickets').value;
+
+    const response = await fetch(`/clientnumtickets?numtickets=${numtickets ? numtickets: 0}`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    fetchAndDisplayData(responseData);
+
+    const messageElement = document.getElementById('numTicketsMsg');
+
+    if (responseData.data) {
+        messageElement.textContent = "Data retrieved successfully!";
+    } else {
+        messageElement.textContent = "Error retrieving data";
+    }
+
+}
+
+async function getOfficerAllTickets(e) {
+
+    e.preventDefault();
+
+    const city = document.getElementById('allTicketsCity').value;
+
+    const response = await fetch(`/allTicketsInCity?city=${city}`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    console.log(responseData);
+    // fetchAndDisplayData(responseData);
+
+    const messageElement = document.getElementById('allTicketsMsg');
+
+    if (responseData.data) {
+        messageElement.textContent = "Data retrieved successfully!";
+    } else {
+        messageElement.textContent = "Error retrieving data";
+    }
+
+}
+
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -116,6 +183,9 @@ window.onload = function() {
     checkDbConnection();
     document.getElementById("avgPrice").addEventListener("click", getAvgPrice);
     document.getElementById("joinClientCase").addEventListener("submit", getClientCase);
+    document.getElementById("viewOutcomes").addEventListener("click", getOutcomeRates);
+    document.getElementById("clientNumTickets").addEventListener("submit", getClientNumTickets);
+    document.getElementById("allTickets").addEventListener("submit", getOfficerAllTickets);
 };
 
 function fetchTableData() {
