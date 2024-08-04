@@ -553,7 +553,24 @@ async function showRepeatClients(numtickets) {
     });
 }
 
-// TODO                     async function nestedaggregation(?)
+// nested aggregation 
+// show average price of ticket for each statutecode group with at least one ticket in it
+async function pricePerStatute(){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT AVG(Amount) FROM TICKETTABLE t1
+            GROUP BY StatuteCode
+            HAVING 1 < (SELECT COUNT(*)  FROM TICKETTABLE t2
+            WHERE t1.StatuteCode = t2.StatuteCode) `,
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+
+}
 // TODO                     async function division(?)
 
 
