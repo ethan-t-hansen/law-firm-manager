@@ -24,7 +24,7 @@
     <!-- Nav Bar -->
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="view-entities.html">View / Edit Tables</a></li>
+        <li><a href="view-entities.html">View Tables</a></li>
         <li><a href="manage-cases.html">Manage Cases</a></li>
     </ul>
 
@@ -44,11 +44,11 @@
     <br> 
 
     <!-- Dropdown to select table -->
-    <form id="selectTable" class="flex flex-col w-fit space-y-4 px-8">
-        <h2 class="text-xl font-bold">
-            Choose Table:
-        </h2>
-        <select name="tables" id="selectTableValue" class="pr-12 pl-2 py-2 border border-gray-400 rounded-md" required>
+    <h2 class="text-xl font-bold px-8 py-4">
+        Choose Table:
+    </h2>
+    <form id="selectTable" class="flex flex-col space-y-4 px-8">
+        <select name="tables" id="selectTableValue" class="w-fit pr-12 pl-2 py-2 border border-gray-400 rounded-md" required>
             <option value=""> - Choose an Option - </option>
             <option value="Insurance">Insurance</option>
             <option value="Client">Client</option>
@@ -66,12 +66,19 @@
             <option value="Prosecutor">Prosecutor</option>
             <option value="FirmEmployment">Firm Employment</option>
         </select>
-        <button class="py-1 text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
-            type="submit"> Fetch Data </button>
+        
     </form>
 
+    <form id="tableOptions" class="px-8 py-4">
+
+    </form>
+
+    <button class="mx-8 py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+            type="submit" form="selectTable"> Fetch Data </button>
+
+
     <!-- Visualized table -->
-    <div class="px-8">
+    <div class="px-8 py-4">
         <table id="entityTable" border="1">
             <thead>
                 <tr id="tableHeaders">
@@ -82,10 +89,6 @@
             </tbody>
         </table>
     </div>
-
-    <br>
-    <hr> <!-- ========================================================================= -->
-    <br> 
 
      <!-- JS script file -->
     <script src="viewentities-scripts.js"></script>

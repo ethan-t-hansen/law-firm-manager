@@ -12,7 +12,6 @@
  * 
  */
 
-
 // This function checks the database connection and updates its status on the frontend.
 async function checkDbConnection() {
     const statusElem = document.getElementById('dbStatus');
@@ -38,7 +37,7 @@ async function checkDbConnection() {
 
 {/* ------------------------------ ALL ENTITIES ------------------------------ */ }
 
-const headers = {
+const attributes = {
     Client: ["Client ID", "Phone Number", "Name", "Email", "Date Of Birth"],
     Case: ["Case ID", "Date Filed", "Hearing Date", "Court Name", "Prosecutor ID", "Judge ID", "Ticket Num", "Client ID", "Outcome"],
     Ticket: ["Ticket Number", "Date Issued", "Amount", "Officer ID", "City", "Statute Code"],
@@ -57,7 +56,9 @@ const headers = {
 }
 
 // Fetches data from the client table and displays it.
-async function fetchAndDisplayEntities() {
+async function fetchAndDisplayEntities(data) {
+
+    // console.log(data)
 
     const tableToFetch = document.getElementById('selectTableValue').value;
 
@@ -71,70 +72,74 @@ async function fetchAndDisplayEntities() {
 
     switch (tableToFetch) {
         case "Client":
-            headerData = headers.Client;
+            headerData = attributes.Client;
             routeToFetch = '/clienttable';
             break;
         case "Case":
-            headerData = headers.Case;
+            headerData = attributes.Case;
             routeToFetch = '/casetable';
             break;
         case "Ticket":
-            headerData = headers.Ticket;
+            headerData = attributes.Ticket;
             routeToFetch = '/tickettable';
             break;
         case "Insurance":
-            headerData = headers.Insurance;
+            headerData = attributes.Insurance;
             routeToFetch = '/instable';
             break;
         case "Officer":
             
-            headerData = headers.Officer;
+            headerData = attributes.Officer;
             routeToFetch = '/officertable';
 
             break;
         case "TicketLocation":
-            headerData = headers.TicketLocation;
+            headerData = attributes.TicketLocation;
             routeToFetch = '/ticketloctable';
             break;
         case "TicketTypes":
-            headerData = headers.TicketTypes;
+            headerData = attributes.TicketTypes;
             routeToFetch = '/tickettypestable';
             break;
         case "Speeding":
-            headerData = headers.Speeding;
+            headerData = attributes.Speeding;
             routeToFetch = '/speedingtable';
             break;
         case "ZoneLimits":
-            headerData = headers.ZoneLimits;
+            headerData = attributes.ZoneLimits;
             routeToFetch = '/zonelimitstable';
             break;
         case "Parking":
-            headerData = headers.Parking;
+            headerData = attributes.Parking;
             routeToFetch = '/parkingtable';
             break;
         case "TrafficLight":
-            headerData = headers.TrafficLight;
+            headerData = attributes.TrafficLight;
             routeToFetch = '/trafficlighttable';
             break;
         case "Court":
-            headerData = headers.Court;
+            headerData = attributes.Court;
             routeToFetch = '/courttable';
             break;
         case "Judge":
-            headerData = headers.Judge;
+            headerData = attributes.Judge;
             routeToFetch = '/judgetable';
             break;
         case "Prosecutor":
-            headerData = headers.Prosecutor;
+            headerData = attributes.Prosecutor;
             routeToFetch = '/prosecutortable';
             break;
         case "FirmEmployment":
-            headerData = headers.FirmEmployment;
+            headerData = attributes.FirmEmployment;
             routeToFetch = '/firmtable';
             break;
         default:
             console.error("Invalid relation type");
     }
+
+    const dataString = data.join(', ');
+
+    routeToFetch = routeToFetch + `?attributes=${(dataString)}`
 
     const response = await fetch(routeToFetch, {
         method: 'GET'
@@ -143,30 +148,83 @@ async function fetchAndDisplayEntities() {
     const responseData = await response.json();
     const tableContent = responseData.data;
 
-    // Always clear old, already fetched data before new fetching process.
-    if (tableBody) {
-        tableBody.innerHTML = '';
-    }
+    console.log(responseData)
 
-    if (tableHeaders) {
-        tableHeaders.innerHTML = '';
-    }
+    // // Always clear old, already fetched data before new fetching process.
+    // if (tableBody) {
+    //     tableBody.innerHTML = '';
+    // }
 
-    headerData.forEach((element, index) => {
-        let headerCell = document.createElement("th")
-        headerCell.textContent = element;
-        tableHeaders.appendChild(headerCell)
-    }
-    )
+    // if (tableHeaders) {
+    //     tableHeaders.innerHTML = '';
+    // }
 
-    tableContent.forEach(item => {
-        const row = tableBody.insertRow();
-        item.forEach((field, index) => {
-            const cell = row.insertCell(index);
-            cell.textContent = field;
-        });
-    });
+    // headerData.forEach((element, index) => {
+    //     let headerCell = document.createElement("th")
+    //     headerCell.textContent = element;
+    //     tableHeaders.appendChild(headerCell)
+    // }
+    // )
+
+    // tableContent.forEach(item => {
+    //     const row = tableBody.insertRow();
+    //     item.forEach((field, index) => {
+    //         const cell = row.insertCell(index);
+    //         cell.textContent = field;
+    //     });
+    // });
 }
+
+async function displayOptions() {
+
+    const tableOptions = document.getElementById('tableOptions');
+    const table = document.getElementById('selectTableValue').value;
+    const selectionAttributes = attributes[table]
+
+    if (tableOptions) {
+        tableOptions.innerHTML = '';
+    }
+
+    selectionAttributes.forEach((element, index) => {
+        let checkbox = document.createElement("input")
+        checkbox.type = "checkbox"
+        checkbox.name = 'options';
+        checkbox.checked = true;
+        checkbox.id = element;
+        checkbox.value = element;
+        let text = document.createElement("label")
+        text.htmlFor = element
+        text.textContent = element;
+        tableOptions.appendChild(checkbox)
+        tableOptions.appendChild(text)
+    })
+
+}
+
+function fetchAttributes(event) {
+        event.preventDefault();
+
+        const formData = new FormData(document.getElementById("tableOptions"));
+        const checkedValues = [];
+
+        // Iterate over formData entries
+        for (let [name, value] of formData.entries()) {
+            if (name === 'options') {
+                checkedValues.push(value);
+            }
+        }
+
+        // console.log(checkedValues); // Logs the values of checked checkboxes
+
+        fetchAndDisplayEntities(checkedValues);
+
+    
+}
+
+// function submitForm(event) {
+//     event.preventDefault();
+//     fetchAndDisplayEntities(null);
+// }
 
 {/* ------------------------------ CLIENTS ------------------------------ */ }
 
@@ -286,10 +344,7 @@ async function fetchAndDisplayEntities() {
 //     }
 // }
 
-function submitForm(event) {
-    event.preventDefault();
-    fetchAndDisplayEntities();
-}
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -298,10 +353,11 @@ window.onload = function () {
     checkDbConnection();
     // fetchTableData();
 
-    document.getElementById("selectTable").addEventListener('submit', submitForm);
-    // document.getElementById("resetClients").addEventListener("click", resetClients);
-    // document.getElementById("insertClient").addEventListener("submit", insertClient);
-    // document.getElementById("updateClient").addEventListener("submit", updateClient);
+    // document.getElementById("selectTable").addEventListener('submit', submitForm);
+    document.getElementById("selectTable").addEventListener('change', displayOptions);
+    
+
+    document.getElementById("tableOptions").addEventListener('change', fetchAttributes);
 
 };
 

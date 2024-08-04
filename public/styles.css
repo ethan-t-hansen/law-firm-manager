@@ -12,6 +12,11 @@ body {
 
 /* AdditionalCSS */
 
+label {
+    padding-right: 12px;
+    padding-left: 4px;
+}
+
 th {
     text-align: left;
 }

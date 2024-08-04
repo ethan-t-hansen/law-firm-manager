@@ -80,8 +80,10 @@ router.get('/instable', async (req, res) => {
 
 //Get all Clients
 router.get('/clienttable', async (req, res) => {
-    const tableContent = await appService.fetchClientTableFromDb();
-    // console.log(tableContent);
+    const attributes = req.query.attributes;
+
+    const tableContent = await appService.fetchClientTableFromDb(attributes);
+    console.log(tableContent);
     res.json({data: tableContent});
 });
 
@@ -256,6 +258,13 @@ router.post("/update-case", async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
+});
+
+router.post("/join-client-ticket", async (req, res) => { 
+
+    const city = req.body
+
+    console.log("Joining where city is " + city)
 });
 
 

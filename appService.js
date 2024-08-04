@@ -92,10 +92,13 @@ async function fetchInsTableFromDb() {
     });
 }
 
-async function fetchClientTableFromDb() {
+async function fetchClientTableFromDb(data) {
+    console.log(data)
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM CLIENTTABLE ORDER BY ClientID'
+            `SELECT *
+             FROM CLIENTTABLE 
+             ORDER BY ClientID`
         );
         return result.rows;
     }).catch(() => {
@@ -498,10 +501,16 @@ async function deleteCase(caseID) {
 // TODO:                    async function select(table, textinput) 
 // TODO:                    async function project(table, attributes)
 
-async function joinClientTicket(clientID) {
+async function joinClientCase(city) {
     return await withOracleDB(async (connection) => {
+
+        const temp = 'Vancouver';
+
         const result = await connection.execute(
-            'SELECT * FROM CASETABLE cs, CLIENTTABLE c WHERE cs.ClientID = c.ClientID AND c.CLIENTID = clientID'
+            `SELECT * 
+             FROM CASETABLE cs, CLIENTTABLE c, TICKETTABLE t
+             WHERE cs.ClientID = c.ClientID AND t.ticketnum = cs.ticketnum AND t.city = city`,
+             {city: temp}
         );
         return result.rows;
     }).catch(() => {
