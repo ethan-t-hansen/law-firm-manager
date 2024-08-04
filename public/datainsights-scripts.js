@@ -56,10 +56,6 @@ async function fetchAndDisplayData(responseData) {
         });
     });
 
-    if (!tableBody) {
-        tableBody.innerHTML = 'No data available.';
-    }
-
 }
 
 async function getAvgPrice(e) {
@@ -161,8 +157,7 @@ async function getOfficerAllTickets(e) {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
-    // fetchAndDisplayData(responseData);
+    fetchAndDisplayData(responseData);
 
     const messageElement = document.getElementById('allTicketsMsg');
 

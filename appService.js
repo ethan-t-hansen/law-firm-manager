@@ -368,6 +368,12 @@ async function deleteCase(caseID) {
 // TODO:                    async function select(table, textinput) 
 // TODO:                    async function project(table, attributes)
 
+
+
+
+
+// COMPLEX QUERY FUNCTIONS --------------------------------------------------------------------------------
+
 async function joinClientCase(city) {
     return await withOracleDB(async (connection) => {
 
@@ -437,20 +443,18 @@ async function pricePerStatute() {
 async function getOfficerWithAllTicketsInCity(city) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `SELECT o.Name, t.City, COUNT(t.TicketNum) as NumberOfTickets
+            `SELECT o.Name as OfficerName, t.City, COUNT(t.TicketNum) as TicketsGiven
             FROM OFFICERTABLE o
             JOIN TICKETTABLE t ON o.OfficerID=t.OfficerID
-            WHERE t.City = :city
+            WHERE t.City = :cityone
             GROUP BY o.Name, t.City
             HAVING COUNT(DISTINCT t.TicketNum) = (
             	SELECT COUNT(*) 
             	FROM TICKETTABLE
-            	WHERE City = :city)`,
-            [city, city],
-            { autoCommit: true }
+            	WHERE City = :citytwo)`,
+            [city, city]
         );
-
-        return result.rowsAffected && result.rowsAffected > 0;
+        return result;
     }).catch(() => {
         return false;
     });
