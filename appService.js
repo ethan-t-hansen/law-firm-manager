@@ -535,7 +535,7 @@ async function groupByOutcomes() {
 }
 
 // shows a table of clients that have a certain number of tickets, specified by user input
-async function showRepeatClients(numtickets) {
+async function getRepeatClients(numtickets) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT Name, COUNT(TicketNum) AS NumberOfTickets
@@ -571,7 +571,29 @@ async function pricePerStatute(){
     });
 
 }
-// TODO                     async function division(?)
+
+// find officer that gave all tickets in user-specified location
+async function getOfficerWithAllTicketsInCity(city) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT o.Name, t.City, COUNT(t.TicketNum) as NumberOfTickets
+            FROM OFFICERTABLE o
+            JOIN TICKETTABLE t ON o.OfficerID=t.OfficerID
+            WHERE t.City = :city
+            GROUP BY o.Name, t.City
+            HAVING COUNT(DISTINCT t.TicketNum) = (
+            	SELECT COUNT(*) 
+            	FROM TICKETTABLE
+            	WHERE City = :city)`,
+            [city],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
 
 
 // async function countDemoTable() {
@@ -606,6 +628,12 @@ module.exports = {
     insertCaseTable,
     updateCaseTable,
     deleteCase,
+
+    joinClientCase,
+    groupByOutcomes,
+    getRepeatClients,
+    pricePerStatute,
+    getOfficerWithAllTicketsInCity,
 
     insertClientTable,
     updateClientTable,
