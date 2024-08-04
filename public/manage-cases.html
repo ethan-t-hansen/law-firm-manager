@@ -41,28 +41,30 @@
     <br>
     <hr><br> <!-- ========================================================================= -->
 
-    <!-- View cases -->
-    <div class="px-8">
-        <h2> View All Cases </h2>
-        <table id="clienttable" border="1">
+    <!-- Visualized table -->
+    <h2 class="text-xl font-bold px-8 py-4">
+        View All Cases
+    </h2>
+    <div class="px-8 py-4">
+        <table id="entityTable" border="1">
             <thead>
-                <tr>
+                <tr id="tableHeaders">
 
                 </tr>
             </thead>
             <tbody>
             </tbody>
-        </table> 
+        </table>
     </div>
 
     <br>
     <hr><br> <!-- ========================================================================= -->
 
-    <div class="px-8">
-        <h2>Refresh Table</h2>
-        <p>Press the button to refresh data in table if needed.</p>
-        <button id="refetchCases"> reset </button> <br>
-        <!-- A placeholder to display messages related to the reset operation. -->
+    <div class="px-8 space-y-4">
+        <h2 class="font-bold">Refresh Table</h2>
+        <button
+            class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+            id="refetchCases"> Click to Refresh Table </button> <br>
         <div id="refetchResultMsg"></div>
     </div>
 
@@ -70,17 +72,25 @@
     <hr><br> <!-- ========================================================================= -->
 
     <div class="px-8 space-y-4">
-        <h2> Insert Clients into Table </h2>
-        <form id="insertClient">
-            Client ID: <input type="number" id="insertClientId" placeholder="Enter ID" required> <br><br>
-            Phone Number: <input type="text" id="insertClientPhone" placeholder="Enter Phone Number" minlength="10"
+        <h2 class="font-bold"> Insert Case into Table </h2>
+        <form id="insertCase">
+            Case ID: <input type="number" id="insertCaseID" placeholder="Enter ID" required> <br><br>
+            Date Filed: <input type="date" id="insertDateFiled" placeholder="Select Date" minlength="10" maxlength="10">
+            <br><br>
+            Hearing Date: <input type="date" id="insertHearingDate" placeholder="Select Date" minlength="10"
                 maxlength="10"> <br><br>
-            Name: <input type="text" id="insertClientName" placeholder="Enter Name" maxlength="20"> <br><br>
-            Email: <input type="text" id="insertClientEmail" placeholder="Enter Email" maxlength="20"> <br><br>
-            Date of Birth: <input type="date" id="insertClientDOB" placeholder="Select Date of Birth" maxlength="20">
+            Court Name: <input type="text" id="insertCourtName" placeholder="Enter Name"> <br><br>
+            Prosecutor ID: <input type="number" id="insertProsecutorID" placeholder="Enter ID"> <br><br>
+            Judge ID: <input type="number" id="insertJudgeID" placeholder="Enter ID" required> <br><br>
+            Ticket Number: <input type="number" id="insertTicketNum" placeholder="Enter Ticket Number" required>
+            <br><br>
+            Client ID: <input type="number" id="insertClientID" placeholder="Enter ID" required> <br><br>
+            Outcome: <input type="text" id="insertOutcome" placeholder="Enter Outcome">
             <br><br>
 
-            <button type="submit"> insert </button> <br>
+            <button
+                class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+                type="submit"> Insert Tuple </button> <br>
         </form>
         <div id="insertResultMsg"></div>
     </div>
@@ -88,45 +98,52 @@
     <br>
     <hr><br> <!-- ========================================================================= -->
 
-    <div class="px-8">
-        <h2>Update Client Attribute</h2>
-        <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.
-        </p>
-        <form id="updateClient">
-            Attribute: <select name="attributes" id="updateClientAttribute" onchange="setField(event)"
+    <div class="px-8 space-y-4">
+        <h2 class="font-bold"> Update Case Attribute</h2>
+        <form id="updateCase" class = "w-fit">
+            Case ID: <input type="number" id="updateCaseID" placeholder="Enter Case ID" required> <br><br>
+            Attribute: <select name="attributes" id="updateCaseAttribute" onchange="setField(event)"
                 class="border border-gray-400 px-2" required>
                 <option value="">--Choose One--</option>
-                <option value="PhoneNum">Phone Number</option>
-                <option value="Name">Name</option>
-                <option value="Email">Email</option>
-                <option value="DateOfBirth">Date of Birth</option>
-            </select>
-            Client ID: <input type="number" id="updateClientID" placeholder="Enter Client ID" required> <br><br>
-            New Value: <input type="text" id="updateClientValue" placeholder="Enter New Value" maxlength="20"> <br><br>
-            <button type="submit"> update </button> <br>
+                <option value="DateFiled">Date Filed</option>
+                <option value="HearingDate">Hearing Date</option>
+                <option value="CourtName">Court Name</option>
+                <option value="ProsecutorID">ProsecutorID</option>
+                <option value="JudgeID">JudgeID</option>
+                <option value="Outcome">Outcome</option>
+            </select> <br><br>
+            New Value: <input type="text" id="updateCaseValue" placeholder="Enter New Value" required> <br><br>
+            <button
+                class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+                type="submit"> Update Case </button> <br>
         </form>
         <script type="text/JavaScript" language="JavaScript">
             function setField(e) {
                         const currSelection = e.target.value
-                        if (currSelection === "DateOfBirth") {
-                            document.getElementById("updateClientValue").type = "date";
+                        if (currSelection === "DateFiled" || currSelection === "HearingDate") {
+                            document.getElementById("updateCaseValue").type = "date";
                         } else {
-                            document.getElementById("updateClientValue").type = "text";
+                            document.getElementById("updateCaseValue").type = "text";
                         }
                     }
             </script>
         <!-- A placeholder to display messages related to the update operation. -->
-        <div id="updateClientResultMsg"></div>
+        <div id="updateCaseResultMsg"></div>
     </div>
 
     <br>
     <hr><br> <!-- ========================================================================= -->
 
-    <div class="px-8">
-        <h2>Count the Tuples </h2>
-        <button id="countDemotable"> count </button> <br><br>
-        <!-- A placeholder to display the count result. -->
-        <div id="countResultMsg"></div> <br>
+    <div class="px-8 space-y-4">
+        <h2 class="font-bold">Delete From Table</h2>
+        <form id="deleteCase">
+            Delete Case with ID: <input type="number" id="deleteCaseID" placeholder="Enter Case ID" required> <br><br>
+            <button
+                class="py-1 w-fit text-left px-4 bg-rose-500 text-white rounded-md ease-in-out duration-200 hover:bg-rose-700"
+                type="submit"> Delete </button>
+        </form>
+
+        <div id="deleteResultMsg"></div>
     </div>
 
     <!-- ===================================================================================== -->

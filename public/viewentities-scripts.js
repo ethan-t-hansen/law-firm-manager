@@ -137,9 +137,9 @@ async function fetchAndDisplayEntities(data) {
             console.error("Invalid relation type");
     }
 
-    const dataString = data.join(', ');
+    // const dataString = data.join(', ');
 
-    routeToFetch = routeToFetch + `?attributes=${(dataString)}`
+    // routeToFetch = routeToFetch + `?attributes=${(dataString)}`
 
     const response = await fetch(routeToFetch, {
         method: 'GET'
@@ -148,31 +148,29 @@ async function fetchAndDisplayEntities(data) {
     const responseData = await response.json();
     const tableContent = responseData.data;
 
-    console.log(responseData)
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
 
-    // // Always clear old, already fetched data before new fetching process.
-    // if (tableBody) {
-    //     tableBody.innerHTML = '';
-    // }
+    if (tableHeaders) {
+        tableHeaders.innerHTML = '';
+    }
 
-    // if (tableHeaders) {
-    //     tableHeaders.innerHTML = '';
-    // }
+    headerData.forEach((element, index) => {
+        let headerCell = document.createElement("th")
+        headerCell.textContent = element;
+        tableHeaders.appendChild(headerCell)
+    }
+    )
 
-    // headerData.forEach((element, index) => {
-    //     let headerCell = document.createElement("th")
-    //     headerCell.textContent = element;
-    //     tableHeaders.appendChild(headerCell)
-    // }
-    // )
-
-    // tableContent.forEach(item => {
-    //     const row = tableBody.insertRow();
-    //     item.forEach((field, index) => {
-    //         const cell = row.insertCell(index);
-    //         cell.textContent = field;
-    //     });
-    // });
+    tableContent.forEach(item => {
+        const row = tableBody.insertRow();
+        item.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
 }
 
 async function displayOptions() {
@@ -214,137 +212,14 @@ function fetchAttributes(event) {
             }
         }
 
-        // console.log(checkedValues); // Logs the values of checked checkboxes
-
         fetchAndDisplayEntities(checkedValues);
-
     
 }
 
-// function submitForm(event) {
-//     event.preventDefault();
-//     fetchAndDisplayEntities(null);
-// }
-
-{/* ------------------------------ CLIENTS ------------------------------ */ }
-
-// // Fetches data from the client table and displays it.
-// async function fetchAndDisplayClients() {
-//     const tableElement = document.getElementById('clienttable');
-//     const tableBody = tableElement.querySelector('tbody');
-
-//     const response = await fetch('/clienttable', {
-//         method: 'GET'
-//     });
-
-//     const responseData = await response.json();
-//     console.log(responseData)
-//     const demotableContent = responseData.data;
-
-//     // Always clear old, already fetched data before new fetching process.
-//     if (tableBody) {
-//         tableBody.innerHTML = '';
-//     }
-
-//     demotableContent.forEach(user => {
-//         const row = tableBody.insertRow();
-//         user.forEach((field, index) => {
-//             const cell = row.insertCell(index);
-//             cell.textContent = field;
-//         });
-//     });
-// }
-
-// // This function resets or initializes the client table.
-// async function resetClients() {
-//     const response = await fetch("/initiate-clienttable", {
-//         method: 'POST'
-//     });
-//     const responseData = await response.json();
-
-//     if (responseData.success) {
-//         const messageElement = document.getElementById('resetResultMsg');
-//         messageElement.textContent = "client table initiated successfully!";
-//         fetchTableData();
-//     } else {
-//         alert("Error initiating table!");
-//     }
-// }
-
-// // Inserts new records into the client table.
-// async function insertClient(event) {
-//     event.preventDefault();
-
-//     // clientid, phonenum, name, email, dateofbirth
-
-//     const idValue = document.getElementById('insertClientId').value;
-//     const phoneValue = document.getElementById('insertClientPhone').value;
-//     const nameValue = document.getElementById('insertClientName').value;
-//     const emailValue = document.getElementById('insertClientEmail').value;
-//     const dobValue = document.getElementById('insertClientDOB').value;
-
-//     const response = await fetch('/insert-clienttable', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             clientid: idValue,
-//             phonenum: phoneValue,
-//             name: nameValue,
-//             email: emailValue,
-//             dateofbirth: dobValue,
-//         })
-//     });
-
-//     const responseData = await response.json();
-//     const messageElement = document.getElementById('insertResultMsg');
-
-//     if (responseData.success) {
-//         messageElement.textContent = "Data inserted successfully!";
-//         fetchTableData();
-//     } else {
-//         messageElement.textContent = "Error inserting data";
-//     }
-// }
-
-// // Updates attribute in the client table.
-// async function updateClient(event) {
-//     event.preventDefault();
-
-//     const clientID = document.getElementById('updateClientID').value;
-//     const clientAttribute = document.getElementById('updateClientAttribute').value;
-//     const newValue = document.getElementById('updateClientValue').value;
-
-//     console.log(clientID)
-//     console.log(clientAttribute)
-//     console.log(newValue)
-
-
-//     const response = await fetch('/update-client', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             clientID: clientID,
-//             clientAttribute: clientAttribute,
-//             newValue: newValue
-//         })
-//     });
-
-//     const responseData = await response.json();
-//     const messageElement = document.getElementById('updateClientResultMsg');
-
-//     if (responseData.success) {
-//         messageElement.textContent = "Client updated successfully!";
-//         fetchTableData();
-//     } else {
-//         messageElement.textContent = "Error updating ";
-//     }
-// }
-
-
+function submitForm(event) {
+    event.preventDefault();
+    fetchAndDisplayEntities(null);
+}
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -353,7 +228,7 @@ window.onload = function () {
     checkDbConnection();
     // fetchTableData();
 
-    // document.getElementById("selectTable").addEventListener('submit', submitForm);
+    document.getElementById("selectTable").addEventListener('submit', submitForm);
     document.getElementById("selectTable").addEventListener('change', displayOptions);
     
 

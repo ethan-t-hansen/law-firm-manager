@@ -1,4 +1,3 @@
-
 const oracledb = require('oracledb');
 const loadEnvFile = require('./utils/envUtil');
 
@@ -43,9 +42,9 @@ process
     .once('SIGTERM', closePoolAndExit)
     .once('SIGINT', closePoolAndExit);
 
+// DB CONNECTION FUNCTIONS ----------------------------------------------------------
 
-// ----------------------------------------------------------
-// Wrapper to manage OracleDB actions, simplifying connection handling.
+
 async function withOracleDB(action) {
     let connection;
     try {
@@ -65,10 +64,6 @@ async function withOracleDB(action) {
     }
 }
 
-
-// ----------------------------------------------------------
-// Core functions for database operations
-// Modify these functions, especially the SQL queries, based on your project's requirements and design.
 async function testOracleConnection() {
     return await withOracleDB(async (connection) => {
         return true;
@@ -77,9 +72,11 @@ async function testOracleConnection() {
     });
 }
 
-// ----------------------------------------------------------
 
 
+
+
+// FETCH FUNCTIONS --------------------------------------------------------------------------------
 
 async function fetchInsTableFromDb() {
     return await withOracleDB(async (connection) => {
@@ -249,125 +246,21 @@ async function fetchCasesTableFromDb() {
     });
 }
 
-// OG insert demoTable fn
-// async function insertDemoTable(id, name) {
-//     return await withOracleDB(async (connection) => {
-//         const result = await connection.execute(
-//             `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
-//             [id, name],
-//             { autoCommit: true }
-//         );
 
-//         return result.rowsAffected && result.rowsAffected > 0;
-//     }).catch(() => {
-//         return false;
-//     });
-// }
 
-async function insertCaseTable(CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) {
+
+
+// CASE FUNCTIONS --------------------------------------------------------------------------------
+
+async function insertCaseTable(data) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum) 
-            VALUES (:CaseID, :DateFiled, :HearingDate, :CourtName, :ProsecutorID, :JudgeID, :TicketNum)`,
-            [CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum],
+            `INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
+            VALUES (:CaseID, :DateFiled, :HearingDate, :CourtName, :ProsecutorID, :JudgeID, :TicketNum, :ClientID, :Outcome)`,
+            [data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]],
             { autoCommit: true }
         );
-
         return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertClientTable(ClientID, PhoneNum, Name, Email, DateOfBirth) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO CLIENTTABLE(ClientID, PhoneNum, Name, Email, DateOfBirth) 
-            VALUES (:ClientID, :PhoneNum, :Name, :Email, :DateOfBirth)`,
-            [ClientID, PhoneNum, Name, Email, DateOfBirth],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-// OG update demoTable fn
-// async function updateNameDemoTable(oldName, newName) {
-//     return await withOracleDB(async (connection) => {
-//         const result = await connection.execute(
-//             `UPDATE DEMOTABLE SET name=:newName where name=:oldName`,
-//             [newName, oldName],
-//             { autoCommit: true }
-//         );
-
-//         return result.rowsAffected && result.rowsAffected > 0;
-//     }).catch(() => {
-//         return false;
-//     });
-// }
-
-
-async function updateClientTable(key, clientAttribute, newValue) {
-    
-    return await withOracleDB(async (connection) => {
-
-        let result = '';
-
-        switch (clientAttribute) {
-            case "PhoneNum":
-                result = await connection.execute(
-                    `UPDATE CLIENTTABLE 
-                        SET PhoneNum = :newValue 
-                        WHERE ClientID = :key`,
-                    {
-                        newValue: newValue,
-                        key: key
-                    },
-                    { autoCommit: true }
-                );
-                return result.rowsAffected && result.rowsAffected > 0;
-            case "Name":
-                result = await connection.execute(
-                    `UPDATE CLIENTTABLE 
-                    SET Name = :newValue 
-                    WHERE ClientID = :key`,
-                    {
-                        newValue: newValue,
-                        key: key
-                    },
-                    { autoCommit: true }
-                );
-                return result.rowsAffected && result.rowsAffected > 0;
-            case "Email":
-                result = await connection.execute(
-                    `UPDATE CLIENTTABLE 
-                        SET Email = :newValue 
-                        WHERE ClientID = :key`,
-                    {
-                        newValue: newValue,
-                        key: key
-                    },
-                    { autoCommit: true }
-                );
-                return result.rowsAffected && result.rowsAffected > 0;
-            case "DateOfBirth":
-                result = await connection.execute(
-                    `UPDATE CLIENTTABLE 
-                        SET DateOfBirth = :newValue 
-                        WHERE ClientID = :key`,
-                    {
-                        newValue: newValue,
-                        key: key
-                    },
-                    { autoCommit: true }
-                );
-                return result.rowsAffected && result.rowsAffected > 0;
-        }
-
     }).catch(() => {
         return false;
     });
@@ -376,11 +269,9 @@ async function updateClientTable(key, clientAttribute, newValue) {
 async function updateCaseTable(key, caseAttribute, newValue) {
     return await withOracleDB(async (connection) => {
 
-        let result = '';
-
         switch (caseAttribute) {
             case "DateFiled":
-                result = await connection.execute(
+                var result = await connection.execute(
                     `UPDATE CASETABLE  
                         SET DateFiled = :newValue 
                         WHERE CaseID  = :key`,
@@ -392,7 +283,7 @@ async function updateCaseTable(key, caseAttribute, newValue) {
                 );
                 return result.rowsAffected && result.rowsAffected > 0;
             case "HearingDate":
-                result = await connection.execute(
+                var result = await connection.execute(
                     `UPDATE CASETABLE  
                         SET HearingDate = :newValue  
                         WHERE CaseID = :key`,
@@ -404,7 +295,7 @@ async function updateCaseTable(key, caseAttribute, newValue) {
                 );
                 return result.rowsAffected && result.rowsAffected > 0;
             case "CourtName":
-                result = await connection.execute(
+                var result = await connection.execute(
                     `UPDATE CASETABLE  
                         SET CourtName = :newValue 
                         WHERE CaseID = :key`,
@@ -426,9 +317,9 @@ async function updateCaseTable(key, caseAttribute, newValue) {
                     },
                     { autoCommit: true }
                 );
-                return result.rowsAffected && result.rowsAffected > 0;
+                break;
             case "JudgeID":
-                result = await connection.execute(
+                var result = await connection.execute(
                     `UPDATE CASETABLE  
                         SET JudgeID = :newValue 
                         WHERE CaseID  = :key`,
@@ -439,32 +330,8 @@ async function updateCaseTable(key, caseAttribute, newValue) {
                     { autoCommit: true }
                 );
                 return result.rowsAffected && result.rowsAffected > 0;
-            case "TicketNum":
-                result = await connection.execute(
-                    `UPDATE CASETABLE  
-                        SET TicketNum = :newValue 
-                        WHERE CaseID  = :key`,
-                    {
-                        newValue: newValue,
-                        key: key
-                    },
-                    { autoCommit: true }
-                );
-                return result.rowsAffected && result.rowsAffected > 0;
-            case "ClientID":
-                result = await connection.execute(
-                    `UPDATE CASETABLE  
-                        SET ClientID = :newValue 
-                        WHERE CaseID  = :key`,
-                    {
-                        newValue: newValue,
-                        key: key
-                    },
-                    { autoCommit: true }
-                );
-                return result.rowsAffected && result.rowsAffected > 0;
             case "Outcome":
-                result = await connection.execute(
+                var result = await connection.execute(
                     `UPDATE CASETABLE  
                         SET Outcome = :newValue 
                         WHERE CaseID  = :key`,
@@ -483,14 +350,16 @@ async function updateCaseTable(key, caseAttribute, newValue) {
 }
 
 async function deleteCase(caseID) {
+
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `DELETE FROM CASETABLE
-            WHERE CaseID = :caseID`,
-            {CaseID: caseID } // Bind parameter
+            WHERE CaseID = :value`,
+            [Number(caseID)],
+            { autoCommit: true }
         );
         await connection.commit();
-        return result.rowsAffected;
+        return result.rowsAffected && result.rowsAffected > 0;
     }).catch((err) => {
         console.error(err);
         return 0;
@@ -510,7 +379,7 @@ async function joinClientCase(city) {
             `SELECT * 
              FROM CASETABLE cs, CLIENTTABLE c, TICKETTABLE t
              WHERE cs.ClientID = c.ClientID AND t.ticketnum = cs.ticketnum AND t.city = city`,
-             {city: temp}
+            { city: temp }
         );
         return result.rows;
     }).catch(() => {
@@ -555,7 +424,7 @@ async function getRepeatClients(numtickets) {
 
 // nested aggregation 
 // show average price of ticket for each statutecode group with at least one ticket in it
-async function pricePerStatute(){
+async function pricePerStatute() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT AVG(Amount) FROM TICKETTABLE t1
@@ -634,7 +503,4 @@ module.exports = {
     getRepeatClients,
     pricePerStatute,
     getOfficerWithAllTicketsInCity,
-
-    insertClientTable,
-    updateClientTable,
 };

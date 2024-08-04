@@ -23,28 +23,6 @@ router.get('/check-db-connection', async (req, res) => {
 
 {/* ------------------------------ CLIENTS ------------------------------ */}
 
-//Initiate client table
-router.post("/initiate-clienttable", async (req, res) => {
-    const initiateResult = await appService.initClientTable();
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-// Insert Client Table
-router.post("/insert-clienttable", async (req, res) => {
-    const { clientid, phonenum, name, email, dateofbirth } = req.body;
-    const date = dateofbirth ? dateofbirth : null;
-    const insertResult = await appService.insertClientTable(clientid, phonenum, name, email, date);
-
-    if (insertResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
 
 // Update Client Table
 router.post("/update-client", async (req, res) => {
@@ -81,9 +59,8 @@ router.get('/instable', async (req, res) => {
 //Get all Clients
 router.get('/clienttable', async (req, res) => {
     const attributes = req.query.attributes;
-
     const tableContent = await appService.fetchClientTableFromDb(attributes);
-    console.log(tableContent);
+    // console.log(tableContent);
     res.json({data: tableContent});
 });
 
@@ -159,60 +136,22 @@ router.get('/firmtable', async (req, res) => {
     res.json({data: tableContent});
 });
 
-
 //Get all Cases
 router.get('/casetable', async (req, res) => {
     const tableContent = await appService.fetchCasesTableFromDb();
-    res.json({data: tableContent});
+    res.json({data: tableContent, success: true});
 });
 
 {/* ------------------------------ CASE ------------------------------ */}
 
-//Init case table
-router.post("/initiate-casetable", async (req, res) => {
-    const initiateResult = await appService.initCasetable();
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-// router.post("/insert-demotable", async (req, res) => {
-//     const { id, name } = req.body;
-//     const insertResult = await appService.insertDemotable(id, name);
-//     if (insertResult) {
-//         res.json({ success: true });
-//     } else {
-//         res.status(500).json({ success: false });
-//     }
-// });
-
-
-// CREATE a new case
-// TODO: check how insert only some attributes
-// router.post("/insert-casetable", async (req, res) => {
-//     const {CaseID, CourtName, TicketNum} = req.body;
-//     const insertResult = await appService.insertDemotable(CaseID,  CourtName, TicketNum);
-//     if (insertResult) {
-//         res.json({ success: true });
-//     } else {
-//         res.status(500).json({ success: false });
-//     }
-// });
-
 router.post("/insert-casetable", async (req, res) => {
-    const { CaseID, CourtName, TicketNum } = req.body;
-    if (!CaseID || !CourtName || !TicketNum) {
-        return res.status(400).json({ success: false, message: "CaseID, CourtName, and TicketNum are required." });
+    const { caseid, datefiled, hearingdate, courtname, prosecutorid, judgeid, ticketnum, clientid, outcome } = req.body;
+    if (!caseid || !ticketnum || !clientid) {
+        return res.status(400).json({ success: false, message: "CaseID, ClientID, and TicketNum are required." });
     }
-    const insertData = {
-        CaseID,
-        CourtName,
-        TicketNum
-    };
+    const data = [caseid, datefiled, hearingdate, courtname, prosecutorid, judgeid, ticketnum, clientid, outcome]
     try {
-        const insertResult = await appService.insertDemotable(insertData);
+        const insertResult = await appService.insertCaseTable(data);
         if (insertResult) {
             res.json({ success: true });
         } else {
@@ -223,34 +162,18 @@ router.post("/insert-casetable", async (req, res) => {
     }
 });
 
-// router.post("/update-name-demotable", async (req, res) => {
-//     const { oldName, newName } = req.body;
-//     const updateResult = await appService.updateNameDemotable(oldName, newName);
-//     if (updateResult) {
-//         res.json({ success: true });
-//     } else {
-//         res.status(500).json({ success: false });
-//     }
-// });
-
 // UPDATE Case
 router.post("/update-case", async (req, res) => {
-    const { CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID } = req.body;
+    
+    const { caseID, caseAttribute, newValue } = req.body;
 
-    if (!CaseID) {
-        return res.status(400).json({ success: false, message: "CaseID is required." });
+    if (!caseID) {
+        return res.status(400).json({ success: false, message: "Case ID is required." });
     }
 
-    const updateData = {};
-    if (DateFiled) updateData.DateFiled = DateFiled;
-    if (HearingDate) updateData.HearingDate = HearingDate;
-    if (CourtName) updateData.CourtName = CourtName;
-    if (ProsecutorID) updateData.ProsecutorID = ProsecutorID;
-    if (JudgeID) updateData.JudgeID = JudgeID;
-
     try {
-        const updateResult = await appService.updateCase(CaseID, updateData);
-        if (updateResult.affectedRows > 0) {
+        const updateResult = await appService.updateCaseTable(caseID, caseAttribute, newValue);
+        if (updateResult) {
             res.json({ success: true });
         } else {
             res.status(404).json({ success: false, message: "No case found with the provided CaseID." });
@@ -260,30 +183,31 @@ router.post("/update-case", async (req, res) => {
     }
 });
 
+// DELETE Case
+router.post("/delete-case", async (req, res) => {
+    const { caseid } = req.body;
+
+    console.log(caseid)
+    
+    try {
+        const deleteResult = await appService.deleteCase(caseid);
+        if (deleteResult) {
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ success: false, message: "No case found with the provided CaseID." });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+
+})
+
 router.post("/join-client-ticket", async (req, res) => { 
 
     const city = req.body
 
     console.log("Joining where city is " + city)
 });
-
-
-
-
-// router.get('/count-demotable', async (req, res) => {
-//     const tableCount = await appService.countDemotable();
-//     if (tableCount >= 0) {
-//         res.json({ 
-//             success: true,  
-//             count: tableCount
-//         });
-//     } else {
-//         res.status(500).json({ 
-//             success: false, 
-//             count: tableCount
-//         });
-//     }
-// });
 
 
 module.exports = router;
