@@ -518,7 +518,23 @@ async function joinClientCase(city) {
     });
 }
 
-// TODO aggregation:        async function countOutcomes(courtName) 
+// group by outcomes. on webpage seen as a dropdown or checkbox
+async function groupByOutcomes() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT Outcome, COUNT(Outcome) AS TotalTimes
+            FROM CASETABLE
+            GROUP BY Outcome`,
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
 // TODO having aggregation: async function repeatcustomers(numtickets)
 // TODO                     async function nestedaggregation(?)
 // TODO                     async function division(?)
