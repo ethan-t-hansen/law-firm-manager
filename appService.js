@@ -364,9 +364,56 @@ async function deleteCase(caseID) {
     });
 }
 
-// TODO: *not sure about params
-// TODO:                    async function select(table, textinput) 
-// TODO:                    async function project(table, attributes)
+// select for CASETABLE
+// takes filteredInput from helper fn and displays only the user-specified row(s)
+async function selectCase(filteredInput) {
+
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT * FROM CASETABLE
+            WHERE ${filteredInput}`,
+            [filteredInput],
+            { autoCommit: true }
+        );
+        return result;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// helper for selectCase fn
+// userInput: user enters a potential WHERE clause in textbox from gui
+// converts to proper SQL where-clause
+async function constructSQLQuery(userInput) {
+    return userInput.replace(/==/g, '=')
+        .replace(/&&/g, 'AND')
+        .replace(/\|\|/g, 'OR');
+}
+
+// projection for any table
+// param: table specified from dropdown menu
+// param: attributes are taken from selectAttributes fn
+async function projectTables(table, attributes) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT :attributes
+            FROM :table`,
+            [table, attributes],
+            { autoCommit: true }
+        );
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// TODO pls help ethan im sorry! idk how to make dynamic query
+// helper for projection
+// param: userInput are checkbox inputs from user and makes a dynamic query for projectTables fn
+async function selectedAttributes(userInput) {
+    // dynamic query things
+    return userInput;
+}
 
 
 
@@ -389,6 +436,7 @@ async function joinClientCase(city) {
     });
 }
 
+// aggregation
 // group by outcomes. on webpage seen as a dropdown or checkbox
 async function groupByOutcomes() {
     return await withOracleDB(async (connection) => {
@@ -403,6 +451,7 @@ async function groupByOutcomes() {
     });
 }
 
+// aggregation
 // shows a table of clients that have a certain number of tickets, specified by user input
 async function getRepeatClients(numtickets) {
     return await withOracleDB(async (connection) => {
@@ -439,6 +488,7 @@ async function pricePerStatute() {
     });
 }
 
+// division aggregation
 // find officer that gave all tickets in user-specified location
 async function getOfficerWithAllTicketsInCity(city) {
     return await withOracleDB(async (connection) => {
@@ -483,6 +533,8 @@ module.exports = {
     insertCaseTable,
     updateCaseTable,
     deleteCase,
+    selectCase,
+    constructSQLQuery,
 
     joinClientCase,
     groupByOutcomes,
