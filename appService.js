@@ -389,6 +389,7 @@ async function joinClientCase(city) {
     });
 }
 
+// aggregation
 // group by outcomes. on webpage seen as a dropdown or checkbox
 async function groupByOutcomes() {
     return await withOracleDB(async (connection) => {
@@ -403,6 +404,7 @@ async function groupByOutcomes() {
     });
 }
 
+// aggregation
 // shows a table of clients that have a certain number of tickets, specified by user input
 async function getRepeatClients(numtickets) {
     return await withOracleDB(async (connection) => {
@@ -439,6 +441,7 @@ async function pricePerStatute() {
     });
 }
 
+// division aggregation
 // find officer that gave all tickets in user-specified location
 async function getOfficerWithAllTicketsInCity(city) {
     return await withOracleDB(async (connection) => {
