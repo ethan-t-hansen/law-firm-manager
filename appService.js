@@ -364,8 +364,32 @@ async function deleteCase(caseID) {
     });
 }
 
-// TODO: *not sure about params
-// TODO:                    async function select(table, textinput) 
+// select for CASETABLE
+// takes filteredInput from helper fn and displays only the user-specified row(s)
+async function selectCase(filteredInput) {
+
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT * FROM CASETABLE
+            WHERE ${filteredInput}`,
+            [filteredInput],
+            { autoCommit: true }
+        );
+        return result;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// helper for selectCase fn
+// userInput: user enters a potential WHERE clause in textbox from gui
+// converts to proper SQL where-clause
+async function constructSQLQuery(userInput) {
+    return userInput.replace(/==/g, '=')
+        .replace(/&&/g, 'AND')
+        .replace(/\|\|/g, 'OR');
+}
+
 // TODO:                    async function project(table, attributes)
 
 
@@ -486,6 +510,8 @@ module.exports = {
     insertCaseTable,
     updateCaseTable,
     deleteCase,
+    selectCase,
+    constructSQLQuery,
 
     joinClientCase,
     groupByOutcomes,
