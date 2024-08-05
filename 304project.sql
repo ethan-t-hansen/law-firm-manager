@@ -290,6 +290,13 @@ VALUES (6, '6041122334', 'Emily Davis', 'emilydavis@example.com', '1992-03-14');
 INSERT INTO CLIENTTABLE (ClientID, PhoneNum, Name, Email, DateOfBirth)
 VALUES (7, '6042233445', 'Chris Evans', 'chrisevans@example.com', '1987-08-23');
 
+INSERT INTO CLIENTTABLE (ClientID, PhoneNum, Name, Email, DateOfBirth)
+VALUES (8, '6043334445', 'Anna Green', 'annagreen@example.com', '1989-12-11');
+
+INSERT INTO CLIENTTABLE (ClientID, PhoneNum, Name, Email, DateOfBirth)
+VALUES (9, '6044445556', 'Tom White', 'tomwhite@example.com', '1991-06-23');
+
+
 INSERT INTO INSURANCETABLE (PolicyNum, ExpiryDate, ClientID)
 VALUES (201, '2024-09-04', 1);
 

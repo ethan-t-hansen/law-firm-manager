@@ -15,11 +15,6 @@ router.get('/check-db-connection', async (req, res) => {
     }
 });
 
-// TODO: finish breaking apart fetch function so can create all tables
-// router.get('/demotable', async (req, res) => {
-//     const tableContent = await appService.fetchAllTablesFromDb();
-//     res.json({data: tableContent});
-// });
 
 {/* ------------------------------ FETCH DATA FUNCTIONS ------------------------------ */}
 
