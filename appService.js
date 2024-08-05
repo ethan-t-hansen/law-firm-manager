@@ -82,7 +82,7 @@ async function fetchInsTableFromDb(data) {
         const result = await connection.execute(
             `SELECT ${attributes.join(",")} FROM INSURANCETABLE ORDER BY ClientID`,
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
@@ -98,7 +98,6 @@ async function fetchClientTableFromDb(data) {
              FROM CLIENTTABLE 
              ORDER BY ClientID`
         );
-        console.log(result);
         return result;
     }).catch(() => {
         return [];

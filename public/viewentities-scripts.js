@@ -71,6 +71,9 @@ async function fetchAndDisplayEntities(data) {
     // let headerData = [];
 
     switch (tableToFetch) {
+        case "Insurance":
+            routeToFetch = '/instable';
+            break;
         case "Client":
             routeToFetch = '/clienttable';
             break;
@@ -79,9 +82,6 @@ async function fetchAndDisplayEntities(data) {
             break;
         case "Ticket":
             routeToFetch = '/tickettable';
-            break;
-        case "Insurance":
-            routeToFetch = '/instable';
             break;
         case "Officer":
             routeToFetch = '/officertable';

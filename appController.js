@@ -27,6 +27,7 @@ router.get('/check-db-connection', async (req, res) => {
 //Get all Insurance
 router.get('/instable', async (req, res) => {
     const attributes = req.query.attributes;
+    console.log("fetching insurance: " + attributes)
     const tableContent = await appService.fetchInsTableFromDb(attributes);
     res.json({data: tableContent});
 });
