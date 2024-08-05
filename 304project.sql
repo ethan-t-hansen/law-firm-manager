@@ -262,7 +262,7 @@ CREATE TABLE CASETABLE(
                           FOREIGN KEY (ProsecutorID) REFERENCES PROSECUTORTABLE(ProsecutorID) ON DELETE CASCADE,
                           FOREIGN KEY (JudgeID) REFERENCES JUDGETABLE(JudgeID) ON DELETE CASCADE,
                           FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum) ON DELETE CASCADE,
-                          FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID) ON DELETE CASCADE,
+                          FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID),
                           UNIQUE(TicketNum)
 );
 
@@ -283,6 +283,12 @@ VALUES (4, '6042345678', 'Sarah Brown', 'sarahbrown@example.com',  '1995-02-28')
 
 INSERT INTO CLIENTTABLE (ClientID, PhoneNum, Name, Email, DateOfBirth)
 VALUES (5, '6048765432', 'David Wilson', 'davidwilson@example.com', '1988-11-03');
+
+INSERT INTO CLIENTTABLE (ClientID, PhoneNum, Name, Email, DateOfBirth)
+VALUES (6, '6041122334', 'Emily Davis', 'emilydavis@example.com', '1992-03-14');
+
+INSERT INTO CLIENTTABLE (ClientID, PhoneNum, Name, Email, DateOfBirth)
+VALUES (7, '6042233445', 'Chris Evans', 'chrisevans@example.com', '1987-08-23');
 
 INSERT INTO INSURANCETABLE (PolicyNum, ExpiryDate, ClientID)
 VALUES (201, '2024-09-04', 1);
@@ -396,6 +402,21 @@ VALUES (14, '2024-07-17', 180.00, 5, 'Vancouver', 129);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
 VALUES (15, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+
+INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
+VALUES (16, '2024-07-16', 200.00, 1, 'Seattle', 123);
+
+INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
+VALUES (17, '2024-07-16', 150.00, 2, 'Seattle', 125);
+
+INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
+VALUES (18, '2024-07-15', 130.00, 3, 'Tacoma', 127);
+
+INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
+VALUES (19, '2024-07-14', 140.00, 4, 'Bellingham', 128);
+
+INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
+VALUES (20, '2024-07-13', 120.00, 5, 'Vancouver', 123);
 
 -- Insert data into SPEEDINGTABLE
 INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
@@ -543,3 +564,22 @@ VALUES (104, '2024-05-18', '2024-12-03', 'Byron White Courthouse', 4, 4, 7, 4, '
 
 INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
 VALUES (105, '2024-07-08', '2025-02-27', 'Richard C. Lee Courthouse', 5, 5, 11, 5, 'reduced');
+
+-- new cases
+
+INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
+VALUES (106, '2024-01-10', '2024-07-25', 'King County Courthouse', 1, 1, 16, 1, 'dismissed');
+
+INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
+VALUES (107, '2024-02-15', '2024-08-30', 'Joel W. Solomon Courthouse', 2, 2, 17, 2, 'reduced');
+
+INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
+VALUES (108, '2024-03-20', '2024-09-05', 'Frank R. Lautenberg Courthouse', 3, 3, 18, 3, 'dismissed');
+
+INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
+VALUES (109, '2024-04-25', '2024-10-10', 'Byron White Courthouse', 4, 4, 19, 4, 'deferred');
+
+INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
+VALUES (110, '2024-05-30', '2024-11-15', 'Richard C. Lee Courthouse', 5, 5, 20, 5, 'reduced');
+
+
