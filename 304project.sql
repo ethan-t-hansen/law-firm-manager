@@ -546,4 +546,5 @@ VALUES (109, '2024-04-25', '2024-10-10', 'Byron White Courthouse', 4, 4, 19, 4, 
 INSERT INTO CASETABLE (CaseID, DateFiled, HearingDate, CourtName, ProsecutorID, JudgeID, TicketNum, ClientID, Outcome)
 VALUES (110, '2024-05-30', '2024-11-15', 'Richard C. Lee Courthouse', 5, 5, 20, 5, 'reduced');
 
+
 COMMIT;
