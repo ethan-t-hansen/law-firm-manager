@@ -21,32 +21,6 @@ router.get('/check-db-connection', async (req, res) => {
 //     res.json({data: tableContent});
 // });
 
-{/* ------------------------------ CLIENTS ------------------------------ */}
-
-
-// Update Client Table
-router.post("/update-client", async (req, res) => {
-
-    const { clientID, clientAttribute, newValue } = req.body;
-
-    if (!clientID) {
-        return res.status(400).json({ success: false, message: "Client ID is required." });
-    }
-
-    try {
-
-        const updateResult = await appService.updateClientTable(parseInt(clientID), clientAttribute, newValue)
-        if (updateResult) {
-            res.json({ success: true });
-        } else {
-            res.status(404).json({ success: false, message: "No client found for client ID: " + clientID});
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
-
-
 {/* ------------------------------ FETCH DATA FUNCTIONS ------------------------------ */}
 
 
@@ -151,7 +125,8 @@ router.get('/firmtable', async (req, res) => {
 //Get all Cases
 router.get('/casetable', async (req, res) => {
     const attributes = req.query.attributes;
-    const tableContent = await appService.fetchCasesTableFromDb(attributes);
+    const filters = req.query.filters;
+    const tableContent = await appService.fetchCasesTableFromDb(attributes, filters);
     res.json({data: tableContent, success: true});
 });
 

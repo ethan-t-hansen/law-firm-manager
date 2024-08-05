@@ -46,6 +46,16 @@
     <h2 class="text-xl font-bold px-8 py-4">
         View All Cases
     </h2>
+    <form class="px-8 space-x-2" id="filterTable">
+        <label for="userInput">Enter your condition:</label>
+        <input type="text" class="px-4 rounded-md py-1" id="userInput" placeholder='e.g., a == "A" || b == "B" && c >= 25'>
+        <button
+        class="py-1 w-fit text-left px-4 bg-sky-500 text-white rounded-md ease-in-out duration-200 hover:bg-sky-700"
+        type="submit"> Filter </button>
+        <div id="filterResultMsg">
+
+        </div>
+    </form>
     <div class="px-8 py-4">
         <table id="entityTable" border="1">
             <thead>
@@ -82,7 +92,7 @@
                 maxlength="10"> <br><br>
             Court Name: <input type="text" id="insertCourtName" placeholder="Enter Name"> <br><br>
             Prosecutor ID: <input type="number" id="insertProsecutorID" placeholder="Enter ID"> <br><br>
-            Judge ID: <input type="number" id="insertJudgeID" placeholder="Enter ID" required> <br><br>
+            Judge ID: <input type="number" id="insertJudgeID" placeholder="Enter ID"> <br><br>
             Ticket Number: <input type="number" id="insertTicketNum" placeholder="Enter Ticket Number" required>
             <br><br>
             Client ID: <input type="number" id="insertClientID" placeholder="Enter ID" required> <br><br>
@@ -100,7 +110,7 @@
     <hr><br> <!-- ========================================================================= -->
 
     <div class="px-8 space-y-4">
-        <h2 class="font-bold"> Update Case Attribute</h2>
+        <h2 class="font-bold"> Update Case Attribute </h2>
         <form id="updateCase" class = "w-fit">
             Case ID: <input type="number" id="updateCaseID" placeholder="Enter Case ID" required> <br><br>
             Attribute: <select name="attributes" id="updateCaseAttribute" onchange="setField(event)"
