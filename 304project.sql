@@ -151,119 +151,119 @@ END;
 
 -- Create tables
 CREATE TABLE CLIENTTABLE(
-    ClientID INT PRIMARY KEY,
-    PhoneNum CHAR(10) NOT NULL,
-    Name VARCHAR(30) NOT NULL,
-    Email VARCHAR(30) NOT NULL,
-    DateOfBirth VARCHAR(30),
-    UNIQUE(Email)
+                            ClientID INT PRIMARY KEY,
+                            PhoneNum CHAR(10) NOT NULL,
+                            Name VARCHAR(30) NOT NULL,
+                            Email VARCHAR(30) NOT NULL,
+                            DateOfBirth VARCHAR(30),
+                            UNIQUE(Email)
 );
 
 CREATE TABLE OFFICERTABLE(
-    OfficerID INT PRIMARY KEY,
-    Department VARCHAR(30) NOT NULL,
-    Name VARCHAR(30) NOT NULL
+                             OfficerID INT PRIMARY KEY,
+                             Department VARCHAR(30) NOT NULL,
+                             Name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE COURTTABLE(
-    CourtName VARCHAR(30) PRIMARY KEY,
-    Location VARCHAR(30) NOT NULL,
-    Type VARCHAR(30)
+                           CourtName VARCHAR(30) PRIMARY KEY,
+                           Location VARCHAR(30) NOT NULL,
+                           Type VARCHAR(30)
 );
 
 CREATE TABLE JUDGETABLE(
-    JudgeID INT PRIMARY KEY,
-    Name VARCHAR(30),
-    CourtName VARCHAR(30),
-    FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName)
+                           JudgeID INT PRIMARY KEY,
+                           Name VARCHAR(30),
+                           CourtName VARCHAR(30),
+                           FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName)
 );
 
 CREATE TABLE FIRMTABLE(
-    FirmName VARCHAR(30) PRIMARY KEY,
-    Clerk VARCHAR(30)
+                          FirmName VARCHAR(30) PRIMARY KEY,
+                          Clerk VARCHAR(30)
 );
 
 CREATE TABLE PROSECUTORTABLE(
-    ProsecutorID INT PRIMARY KEY,
-    Name VARCHAR(30),
-    CourtName VARCHAR(30),
-    FirmName VARCHAR(30),
-    FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName),
-    FOREIGN KEY (FirmName) REFERENCES FIRMTABLE(FirmName)
+                                ProsecutorID INT PRIMARY KEY,
+                                Name VARCHAR(30),
+                                CourtName VARCHAR(30),
+                                FirmName VARCHAR(30),
+                                FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName),
+                                FOREIGN KEY (FirmName) REFERENCES FIRMTABLE(FirmName)
 );
 
 CREATE TABLE INSURANCETABLE(
-    PolicyNum INT,
-    ExpiryDate Varchar(30) NOT NULL,
-    ClientID INT,
-    FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID) ON DELETE CASCADE,
-    PRIMARY KEY (PolicyNum, ClientID)
+                               PolicyNum INT,
+                               ExpiryDate Varchar(30) NOT NULL,
+                               ClientID INT,
+                               FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID) ON DELETE CASCADE,
+                               PRIMARY KEY (PolicyNum, ClientID)
 );
 
 
 CREATE TABLE TICKETLOCTABLE(
-    City VARCHAR(30) PRIMARY KEY,
-    County VARCHAR(30) NOT NULL
+                               City VARCHAR(30) PRIMARY KEY,
+                               County VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE TICKETTYPESTABLE(
-    StatuteCode INT PRIMARY KEY,
-    TicketType VARCHAR(15)
+                                 StatuteCode INT PRIMARY KEY,
+                                 TicketType VARCHAR(15)
 );
 
 CREATE TABLE TICKETTABLE(
-    TicketNum INT PRIMARY KEY,
-    DateIssued Varchar(30) NOT NULL,
-    Amount DECIMAL(12,2) NOT NULL,
-    OfficerID INT NOT NULL,
-    City VARCHAR(30),
-    StatuteCode INT,
-    FOREIGN KEY (OfficerID) REFERENCES OFFICERTABLE(OfficerID)  ON DELETE CASCADE,
-    FOREIGN KEY (City) REFERENCES TICKETLOCTABLE(City) ON DELETE CASCADE,
-    FOREIGN KEY (StatuteCode) REFERENCES TICKETTYPESTABLE(StatuteCode) ON DELETE CASCADE
+                            TicketNum INT PRIMARY KEY,
+                            DateIssued Varchar(30) NOT NULL,
+                            Amount DECIMAL(12,2) NOT NULL,
+                            OfficerID INT NOT NULL,
+                            City VARCHAR(30),
+                            StatuteCode INT,
+                            FOREIGN KEY (OfficerID) REFERENCES OFFICERTABLE(OfficerID)  ON DELETE CASCADE,
+                            FOREIGN KEY (City) REFERENCES TICKETLOCTABLE(City) ON DELETE CASCADE,
+                            FOREIGN KEY (StatuteCode) REFERENCES TICKETTYPESTABLE(StatuteCode) ON DELETE CASCADE
 );
 
 CREATE TABLE ZONETABLE(
-    SpeedingZone VARCHAR(30) PRIMARY KEY,
-    SpeedLimit INT
+                          SpeedingZone VARCHAR(30) PRIMARY KEY,
+                          SpeedLimit INT
 );
 
 CREATE TABLE SPEEDINGTABLE(
-    TicketNum INT PRIMARY KEY,
-    Speed INT,
-    SpeedingZone VARCHAR(30),
-    FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum),
-    FOREIGN KEY (SpeedingZone) REFERENCES ZONETABLE(SpeedingZone)
+                              TicketNum INT PRIMARY KEY,
+                              Speed INT,
+                              SpeedingZone VARCHAR(30),
+                              FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum),
+                              FOREIGN KEY (SpeedingZone) REFERENCES ZONETABLE(SpeedingZone)
 );
 
 CREATE TABLE PARKINGTABLE(
-    TicketNum INT PRIMARY KEY,
-    ParkingZone VARCHAR(30),
-    FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum)
+                             TicketNum INT PRIMARY KEY,
+                             ParkingZone VARCHAR(30),
+                             FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum)
 );
 
 CREATE TABLE TRAFFICLIGHTTABLE(
-    TicketNum INT PRIMARY KEY,
-    PhotoURL VARCHAR(50),
-    FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum)
+                                  TicketNum INT PRIMARY KEY,
+                                  PhotoURL VARCHAR(50),
+                                  FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum)
 );
 
 CREATE TABLE CASETABLE(
-    CaseID INT PRIMARY KEY,
-    DateFiled Varchar(30),
-    HearingDate Varchar(30),
-    CourtName VARCHAR(30),
-    ProsecutorID INT,
-    JudgeID INT,
-    TicketNum INT NOT NULL,
-    ClientID INT NOT NULL,
-    Outcome VARCHAR(25),
-    FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName) ON DELETE CASCADE,
-    FOREIGN KEY (ProsecutorID) REFERENCES PROSECUTORTABLE(ProsecutorID) ON DELETE CASCADE,
-    FOREIGN KEY (JudgeID) REFERENCES JUDGETABLE(JudgeID) ON DELETE CASCADE,
-    FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum) ON DELETE CASCADE,
-    FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID) ON DELETE CASCADE,
-    UNIQUE(TicketNum)
+                          CaseID INT PRIMARY KEY,
+                          DateFiled Varchar(30),
+                          HearingDate Varchar(30),
+                          CourtName VARCHAR(30),
+                          ProsecutorID INT,
+                          JudgeID INT,
+                          TicketNum INT NOT NULL,
+                          ClientID INT NOT NULL,
+                          Outcome VARCHAR(25),
+                          FOREIGN KEY (CourtName) REFERENCES COURTTABLE(CourtName) ON DELETE CASCADE,
+                          FOREIGN KEY (ProsecutorID) REFERENCES PROSECUTORTABLE(ProsecutorID) ON DELETE CASCADE,
+                          FOREIGN KEY (JudgeID) REFERENCES JUDGETABLE(JudgeID) ON DELETE CASCADE,
+                          FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum) ON DELETE CASCADE,
+                          FOREIGN KEY (ClientID) REFERENCES CLIENTTABLE(ClientID) ON DELETE CASCADE,
+                          UNIQUE(TicketNum)
 );
 
 
@@ -359,57 +359,80 @@ VALUES ('School Zone', 30);
 INSERT INTO ZONETABLE (SpeedingZone, SpeedLimit)
 VALUES ('Highway, Crew Working', 70);
 
+
 -- Correct TICKETTABLE data
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (1, '2024-07-21', 165.00, 1, 'Seattle', 123);
+VALUES (1, '2024-07-21', 150.00, 1, 'Seattle', 123);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
 VALUES (2, '2024-07-20', 100.00, 2, 'Seattle', 125);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (6, '2024-07-19', 190.00, 3, 'Tacoma', 127);
+VALUES (6, '2024-07-19', 200.00, 3, 'Tacoma', 127);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (7, '2024-07-18', 78.00, 4, 'Bellingham', 128);
+VALUES (7, '2024-07-18', 120.00, 4, 'Bellingham', 128);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (8, '2024-07-18', 84.00, 4, 'Bellingham', 128);
+VALUES (8, '2024-07-18', 120.00, 4, 'Bellingham', 128);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
 VALUES (9, '2024-07-18', 120.00, 4, 'Bellingham', 128);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (10, '2024-07-17', 109.00, 5, 'Vancouver', 128);
+VALUES (10, '2024-07-17', 180.00, 5, 'Vancouver', 129);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (11, '2024-07-17', 90.00, 5, 'Vancouver', 123);
+VALUES (11, '2024-07-17', 180.00, 5, 'Vancouver', 129);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (12, '2024-07-17', 171.00, 5, 'Vancouver', 124);
+VALUES (12, '2024-07-17', 180.00, 5, 'Vancouver', 129);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (13, '2024-07-17', 180.00, 5, 'Vancouver', 125);
+VALUES (13, '2024-07-17', 180.00, 5, 'Vancouver', 129);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (14, '2024-07-17', 145.00, 5, 'Vancouver', 129);
+VALUES (14, '2024-07-17', 180.00, 5, 'Vancouver', 129);
 
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
-VALUES (15, '2024-07-17', 132.00, 5, 'Vancouver', 129);
+VALUES (15, '2024-07-17', 180.00, 5, 'Vancouver', 129);
+
+-- Insert data into SPEEDINGTABLE
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (1, 85, 'Highway');
 
 INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
-VALUES (6, 139, 'Highway');
+VALUES (2, 75, 'Highway');
 
 INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
-VALUES (7, 87, 'Residential');
+VALUES (6, 60, 'Construction Zone');
 
 INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
-VALUES (8, 61, 'Construction Zone');
+VALUES (7, 45, 'Residential');
 
 INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
-VALUES (9, 122, 'School Zone');
+VALUES (8, 50, 'Construction Zone');
 
 INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
-VALUES (10, 104, 'Highway');
+VALUES (9, 55, 'School Zone');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (10, 70, 'Highway, Crew Working');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (11, 72, 'Highway, Crew Working');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (12, 74, 'Highway, Crew Working');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (13, 78, 'Highway, Crew Working');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (14, 82, 'Highway, Crew Working');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (15, 80, 'Highway, Crew Working');
 
 INSERT INTO PARKINGTABLE (TicketNum, ParkingZone)
 VALUES (6, 'Residents Only');
