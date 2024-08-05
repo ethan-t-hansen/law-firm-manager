@@ -390,7 +390,30 @@ async function constructSQLQuery(userInput) {
         .replace(/\|\|/g, 'OR');
 }
 
-// TODO:                    async function project(table, attributes)
+// projection for any table
+// param: table specified from dropdown menu
+// param: attributes are taken from selectAttributes fn
+async function projectTables(table, attributes) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT :attributes
+            FROM :table`,
+            [table, attributes],
+            { autoCommit: true }
+        );
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// TODO pls help ethan im sorry! idk how to make dynamic query
+// helper for projection
+// param: userInput are checkbox inputs from user and makes a dynamic query for projectTables fn
+async function selectedAttributes(userInput) {
+    // dynamic query things
+    return userInput;
+}
 
 
 
