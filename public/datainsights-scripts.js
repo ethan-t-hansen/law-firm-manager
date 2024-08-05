@@ -113,6 +113,22 @@ async function getOutcomeRates(e) {
     const responseData = await response.json();
     fetchAndDisplayData(responseData);
 
+    const tuples = responseData.data.rows;
+
+    let successes = 0;
+    let numTuples=0;
+
+    tuples.forEach((element, index) => {
+        if (tuples[index][0] === 'dismissed' || tuples[index][0] === 'deferred') {
+            successes+=tuples[index][1];
+        }
+        numTuples+=tuples[index][1];
+    })
+
+    const successRateElement = document.getElementById('successRate')
+
+    successRateElement.textContent = "Success Rate: " + (100*(successes/numTuples)) + "%";
+
     const messageElement = document.getElementById('outcomesMsg');
 
     if (responseData.data) {

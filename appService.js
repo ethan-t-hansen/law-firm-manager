@@ -76,10 +76,11 @@ async function testOracleConnection() {
 
 // FETCH FUNCTIONS --------------------------------------------------------------------------------
 
-async function fetchInsTableFromDb() {
+async function fetchInsTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM INSURANCETABLE ORDER BY ClientID',
+            `SELECT ${attributes.join(",")} FROM INSURANCETABLE ORDER BY ClientID`,
         );
         return result.rows;
     }).catch(() => {
@@ -88,157 +89,174 @@ async function fetchInsTableFromDb() {
 }
 
 async function fetchClientTableFromDb(data) {
-    console.log(data)
+
+    var attributes = data.split(', ').map(item => item.trim());
+
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `SELECT *
+            `SELECT ${attributes.join(",")}
              FROM CLIENTTABLE 
              ORDER BY ClientID`
         );
-        return result.rows;
+        console.log(result);
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchTicketTableFromDb() {
+async function fetchTicketTableFromDb(data) {
+
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM TICKETTABLE ORDER BY TicketNum'
+            `SELECT ${attributes.join(",")} FROM TICKETTABLE ORDER BY TicketNum`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchOfficerTableFromDb() {
+async function fetchOfficerTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM OFFICERTABLE ORDER BY OfficerID'
+            `SELECT ${attributes.join(",")} FROM OFFICERTABLE ORDER BY OfficerID`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchTicketLocTableFromDb() {
+async function fetchTicketLocTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM TICKETLOCTABLE ORDER BY City'
+            `SELECT ${attributes.join(",")} FROM TICKETLOCTABLE ORDER BY City`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchTicketTypesTableFromDb() {
+async function fetchTicketTypesTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM TICKETTYPESTABLE ORDER BY StatuteCode'
+            `SELECT ${attributes.join(",")} FROM TICKETTYPESTABLE ORDER BY StatuteCode`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchSpeedingTableFromDb() {
+async function fetchSpeedingTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM SPEEDINGTABLE ORDER BY TicketNum'
+            `SELECT ${attributes.join(",")} FROM SPEEDINGTABLE ORDER BY TicketNum`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchZoneTableFromDb() {
+async function fetchZoneTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM ZONETABLE ORDER BY SpeedingZone'
+            `SELECT ${attributes.join(",")} FROM ZONETABLE ORDER BY SpeedingZone`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchParkingTableFromDb() {
+async function fetchParkingTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM PARKINGTABLE ORDER BY TicketNum'
+            `SELECT ${attributes.join(",")} FROM PARKINGTABLE ORDER BY TicketNum`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchTrafficLightTableFromDb() {
+async function fetchTrafficLightTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM TRAFFICLIGHTTABLE ORDER BY TicketNum'
+            `SELECT ${attributes.join(",")} FROM TRAFFICLIGHTTABLE ORDER BY TicketNum`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchCourtTableFromDb() {
+async function fetchCourtTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM COURTTABLE ORDER BY Location, Type'
+            `SELECT ${attributes.join(",")} FROM COURTTABLE ORDER BY Location, Type`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchJudgeTableFromDb() {
+async function fetchJudgeTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM JUDGETABLE ORDER BY JudgeID'
+            `SELECT ${attributes.join(",")} FROM JUDGETABLE ORDER BY JudgeID`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchProsecutorTableFromDb() {
+async function fetchProsecutorTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM PROSECUTORTABLE ORDER BY FirmName, ProsecutorID'
+            `SELECT ${attributes.join(",")} FROM PROSECUTORTABLE ORDER BY FirmName, ProsecutorID`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchFirmTableFromDb() {
+async function fetchFirmTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM FIRMTABLE ORDER BY FirmName, Clerk'
+            `SELECT ${attributes.join(",")} FROM FIRMTABLE ORDER BY FirmName, Clerk`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
-async function fetchCasesTableFromDb() {
+async function fetchCasesTableFromDb(data) {
+    var attributes = data.split(', ').map(item => item.trim());
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            'SELECT * FROM CASETABLE ORDER BY CaseID'
+            `SELECT ${attributes.join(",")} FROM CASETABLE ORDER BY CaseID`
         );
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
@@ -397,11 +415,9 @@ async function projectTables(table, attributes) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT :attributes
-            FROM :table`,
-            [table, attributes],
-            { autoCommit: true }
+            FROM :table`
         );
-        return result.rowsAffected && result.rowsAffected > 0;
+        return result;
     }).catch(() => {
         return false;
     });
@@ -436,7 +452,7 @@ async function joinClientCase(city) {
     });
 }
 
-// aggregation
+// aggregation (group by)
 // group by outcomes. on webpage seen as a dropdown or checkbox
 async function groupByOutcomes() {
     return await withOracleDB(async (connection) => {
@@ -451,7 +467,7 @@ async function groupByOutcomes() {
     });
 }
 
-// aggregation
+// aggregation (having)
 // shows a table of clients that have a certain number of tickets, specified by user input
 async function getRepeatClients(numtickets) {
     return await withOracleDB(async (connection) => {
@@ -482,7 +498,6 @@ async function pricePerStatute() {
         );
 
         return result;
-        // return result.rows;
     }).catch(() => {
         return [];
     });

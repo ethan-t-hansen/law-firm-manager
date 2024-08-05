@@ -52,7 +52,8 @@ router.post("/update-client", async (req, res) => {
 
 //Get all Insurance
 router.get('/instable', async (req, res) => {
-    const tableContent = await appService.fetchInsTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchInsTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
@@ -60,85 +61,97 @@ router.get('/instable', async (req, res) => {
 router.get('/clienttable', async (req, res) => {
     const attributes = req.query.attributes;
     const tableContent = await appService.fetchClientTableFromDb(attributes);
-    // console.log(tableContent);
     res.json({data: tableContent});
 });
 
 //Get all Tickets
 router.get('/tickettable', async (req, res) => {
-    const tableContent = await appService.fetchTicketTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchTicketTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Officers
 router.get('/officertable', async (req, res) => {
-    const tableContent = await appService.fetchOfficerTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchOfficerTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Ticket Locations
 router.get('/ticketloctable', async (req, res) => {
-    const tableContent = await appService.fetchTicketLocTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchTicketLocTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Ticket Types
 router.get('/tickettypestable', async (req, res) => {
-    const tableContent = await appService.fetchTicketTypesTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchTicketTypesTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Speedings
 router.get('/speedingtable', async (req, res) => {
-    const tableContent = await appService.fetchSpeedingTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchSpeedingTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all zones
 router.get('/zonetable', async (req, res) => {
-    const tableContent = await appService.fetchZoneTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchZoneTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all parking tickets
 router.get('/parkingtable', async (req, res) => {
-    const tableContent = await appService.fetchParkingTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchParkingTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all traffic light tickets
 router.get('/trafficlighttable', async (req, res) => {
-    const tableContent = await appService.fetchTrafficLightTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchTrafficLightTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Courts
 router.get('/courttable', async (req, res) => {
-    const tableContent = await appService.fetchCourtTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchCourtTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Judges
 router.get('/judgetable', async (req, res) => {
-    const tableContent = await appService.fetchJudgeTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchJudgeTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Prosecutors
 router.get('/prosecutortable', async (req, res) => {
-    const tableContent = await appService.fetchProsecutorTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchProsecutorTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Firms
 router.get('/firmtable', async (req, res) => {
-    const tableContent = await appService.fetchFirmTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchFirmTableFromDb(attributes);
     res.json({data: tableContent});
 });
 
 //Get all Cases
 router.get('/casetable', async (req, res) => {
-    const tableContent = await appService.fetchCasesTableFromDb();
+    const attributes = req.query.attributes;
+    const tableContent = await appService.fetchCasesTableFromDb(attributes);
     res.json({data: tableContent, success: true});
 });
 

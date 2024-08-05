@@ -230,7 +230,7 @@ CREATE TABLE ZONETABLE(
 
 CREATE TABLE SPEEDINGTABLE(
     TicketNum INT PRIMARY KEY,
-    TicketType VARCHAR(15),
+    Speed INT,
     SpeedingZone VARCHAR(30),
     FOREIGN KEY (TicketNum) REFERENCES TICKETTABLE(TicketNum),
     FOREIGN KEY (SpeedingZone) REFERENCES ZONETABLE(SpeedingZone)
@@ -396,6 +396,20 @@ VALUES (14, '2024-07-17', 145.00, 5, 'Vancouver', 129);
 INSERT INTO TICKETTABLE (TicketNum, DateIssued, Amount, OfficerID, City, StatuteCode)
 VALUES (15, '2024-07-17', 132.00, 5, 'Vancouver', 129);
 
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (6, 139, 'Highway');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (7, 87, 'Residential');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (8, 61, 'Construction Zone');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (9, 122, 'School Zone');
+
+INSERT INTO SPEEDINGTABLE (TicketNum, Speed, SpeedingZone)
+VALUES (10, 104, 'Highway');
 
 INSERT INTO PARKINGTABLE (TicketNum, ParkingZone)
 VALUES (6, 'Residents Only');
