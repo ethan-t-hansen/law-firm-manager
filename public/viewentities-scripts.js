@@ -38,27 +38,27 @@ async function checkDbConnection() {
 {/* ------------------------------ ALL ENTITIES ------------------------------ */ }
 
 const attributes = {
-    Client: ["Client ID", "Phone Number", "Name", "Email", "Date Of Birth"],
-    Case: ["Case ID", "Date Filed", "Hearing Date", "Court Name", "Prosecutor ID", "Judge ID", "Ticket Num", "Client ID", "Outcome"],
-    Ticket: ["Ticket Number", "Date Issued", "Amount", "Officer ID", "City", "Statute Code"],
-    Officer: ["Officer ID", "Department", "Name"],
-    Insurance: ["Policy Number", "Expiry Date", "Client ID"],
+    Client: ["ClientID", "PhoneNum", "Name", "Email", "DateOfBirth"],
+    Case: ["CaseID", "DateFiled", "HearingDate", "CourtName", "ProsecutorID", "JudgeID", "TicketNum", "ClientID", "Outcome"],
+    Ticket: ["TicketNum", "DateIssued", "Amount", "OfficerID", "City", "StatuteCode"],
+    Officer: ["OfficerID", "Department", "Name"],
+    Insurance: ["PolicyNum", "ExpiryDate", "ClientID"],
     Court: ["Name", "Location", "Type"],
-    Judge: ["Judge ID", "Name", "Court Name"],
-    Prosecutor: ["Prosecutor ID", "Name", "Firm Name", "Court Name"],
-    FirmEmployment: ["Firm", "Clerk"],
+    Judge: ["JudgeID", "Name", "CourtName"],
+    Prosecutor: ["ProsecutorID", "Name", "FirmName", "CourtName"],
+    FirmEmployment: ["FirmName", "Clerk"],
     TicketLocation: ["City", "County"],
-    TicketTypes: ["Statute Code", "Ticket Type"],
-    Speeding: ["Ticket Number", "Speed", "Speeding Zone"],
-    ZoneLimits: ["Speeding Zone", "Limit"],
-    Parking: ["Ticket Number", "Parking Zone"],
-    TrafficLight: ["Ticket Number", "Photo URL"],
+    TicketTypes: ["StatuteCode", "TicketType"],
+    Speeding: ["TicketNumber", "Speed", "SpeedingZone"],
+    ZoneLimits: ["SpeedingZone", "SpeedLimit"],
+    Parking: ["TicketNum", "ParkingZone"],
+    TrafficLight: ["TicketNum", "PhotoURL"],
 }
 
 // Fetches data from the client table and displays it.
 async function fetchAndDisplayEntities(data) {
 
-    // console.log(data)
+    console.log(data)
 
     const tableToFetch = document.getElementById('selectTableValue').value;
 
@@ -68,87 +68,74 @@ async function fetchAndDisplayEntities(data) {
     const tableBody = tableElement.querySelector('tbody');
 
     let routeToFetch = '';
-    let headerData = [];
+    // let headerData = [];
 
     switch (tableToFetch) {
         case "Client":
-            headerData = attributes.Client;
             routeToFetch = '/clienttable';
             break;
         case "Case":
-            headerData = attributes.Case;
             routeToFetch = '/casetable';
             break;
         case "Ticket":
-            headerData = attributes.Ticket;
             routeToFetch = '/tickettable';
             break;
         case "Insurance":
-            headerData = attributes.Insurance;
             routeToFetch = '/instable';
             break;
         case "Officer":
-            
-            headerData = attributes.Officer;
             routeToFetch = '/officertable';
-
             break;
         case "TicketLocation":
-            headerData = attributes.TicketLocation;
             routeToFetch = '/ticketloctable';
             break;
         case "TicketTypes":
-            headerData = attributes.TicketTypes;
             routeToFetch = '/tickettypestable';
             break;
         case "Speeding":
-            headerData = attributes.Speeding;
             routeToFetch = '/speedingtable';
             break;
         case "ZoneLimits":
-            headerData = attributes.ZoneLimits;
-            routeToFetch = '/zonelimitstable';
+            routeToFetch = '/zonetable';
             break;
         case "Parking":
-            headerData = attributes.Parking;
             routeToFetch = '/parkingtable';
             break;
         case "TrafficLight":
-            headerData = attributes.TrafficLight;
             routeToFetch = '/trafficlighttable';
             break;
         case "Court":
-            headerData = attributes.Court;
             routeToFetch = '/courttable';
             break;
         case "Judge":
-            headerData = attributes.Judge;
             routeToFetch = '/judgetable';
             break;
         case "Prosecutor":
-            headerData = attributes.Prosecutor;
             routeToFetch = '/prosecutortable';
             break;
         case "FirmEmployment":
-            headerData = attributes.FirmEmployment;
             routeToFetch = '/firmtable';
             break;
         default:
             console.error("Invalid relation type");
     }
 
-    // const dataString = data.join(', ');
+    const dataString = `${data.join(', ')}`;
 
-    // routeToFetch = routeToFetch + `?attributes=${(dataString)}`
+    console.log(dataString);
+
+    routeToFetch = routeToFetch + `?attributes=${dataString}`
+
+    console.log(routeToFetch);
 
     const response = await fetch(routeToFetch, {
         method: 'GET'
     });
 
     const responseData = await response.json();
-    const tableContent = responseData.data;
+    const headerContent = responseData.data.metaData;
+    const tableContent = responseData.data.rows;
 
-    // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
@@ -157,9 +144,9 @@ async function fetchAndDisplayEntities(data) {
         tableHeaders.innerHTML = '';
     }
 
-    headerData.forEach((element, index) => {
+    headerContent.forEach((element, index) => {
         let headerCell = document.createElement("th")
-        headerCell.textContent = element;
+        headerCell.textContent = element.name;
         tableHeaders.appendChild(headerCell)
     }
     )
@@ -199,8 +186,7 @@ async function displayOptions() {
 
 }
 
-function fetchAttributes(event) {
-        event.preventDefault();
+function fetchAttributes() {
 
         const formData = new FormData(document.getElementById("tableOptions"));
         const checkedValues = [];
@@ -218,7 +204,7 @@ function fetchAttributes(event) {
 
 function submitForm(event) {
     event.preventDefault();
-    fetchAndDisplayEntities(null);
+    fetchAttributes();
 }
 
 // ---------------------------------------------------------------
@@ -226,13 +212,9 @@ function submitForm(event) {
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function () {
     checkDbConnection();
-    // fetchTableData();
-
+    
     document.getElementById("selectTable").addEventListener('submit', submitForm);
     document.getElementById("selectTable").addEventListener('change', displayOptions);
-    
-
-    document.getElementById("tableOptions").addEventListener('change', fetchAttributes);
 
 };
 
