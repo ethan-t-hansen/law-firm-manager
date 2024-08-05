@@ -14,36 +14,32 @@ async function checkDbConnection() {
     statusElem.style.display = 'inline';
 
     response.text()
-    .then((text) => {
-        statusElem.textContent = text;
-    })
-    .catch((error) => {
-        statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
-    });
+        .then((text) => {
+            statusElem.textContent = text;
+        })
+        .catch((error) => {
+            statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        });
 }
 
-const attributes = {
-    Case: ["Case ID", "Date Filed", "Hearing Date", "Court Name", "Prosecutor ID", "Judge ID", "Ticket Num", "Client ID", "Outcome"]
-}
-
-{/* ------------------------------ ALL ENTITIES ------------------------------ */}
+{/* ------------------------------ ALL ENTITIES ------------------------------ */ }
 
 // Fetches data from the client table and displays it.
-async function fetchAndDisplayCases() {
+async function fetchAndDisplayCases(filters) {
 
     const tableHeaders = document.getElementById('tableHeaders');
 
     const tableElement = document.getElementById('entityTable');
     const tableBody = tableElement.querySelector('tbody');
-    
-    const response = await fetch('/casetable', {
+
+    const response = await fetch(`/casetable?attributes=*&filters=${filters}`, {
         method: 'GET'
     });
 
     const responseData = await response.json();
-    const tableContent = responseData.data;
+    const headerContent = responseData.data.metaData;
+    const tableContent = responseData.data.rows;
 
-    // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
@@ -52,9 +48,9 @@ async function fetchAndDisplayCases() {
         tableHeaders.innerHTML = '';
     }
 
-    attributes.Case.forEach((element, index) => {
+    headerContent.forEach((element, index) => {
         let headerCell = document.createElement("th")
-        headerCell.textContent = element;
+        headerCell.textContent = element.name;
         tableHeaders.appendChild(headerCell)
     }
     )
@@ -74,6 +70,30 @@ async function fetchAndDisplayCases() {
     } else {
         messageElement.textContent = "Error retrieving data";
     }
+}
+
+// Selects based on filters
+async function filterCase(event) {
+    event.preventDefault();
+
+    var filterString = document.getElementById('userInput').value;
+
+    var messageElement = document.getElementById('filterResultMsg');
+
+    if (filterString.includes("AND") || filterString.includes("OR") || filterString.includes(" = ")) {
+        
+        messageElement.textContent = "Error: Do not include SQL code in filter.";
+        return;
+    }
+
+    messageElement.textContent = "";
+
+    // Convert to SQL string
+    var filters = filterString.replace(/==/g, '=')
+        .replace(/&&/g, 'AND')
+        .replace(/\|\|/g, 'OR');
+
+    fetchAndDisplayCases(filters);
 }
 
 // Inserts new records into the case table.
@@ -150,6 +170,7 @@ async function updateCase(event) {
     }
 }
 
+// Removes case from DB
 async function deleteCase(event) {
 
     event.preventDefault();
@@ -183,16 +204,17 @@ async function deleteCase(event) {
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
-window.onload = function() {
+window.onload = function () {
     checkDbConnection();
     fetchTableData()
     document.getElementById("refetchCases").addEventListener("click", fetchTableData);
     document.getElementById("insertCase").addEventListener("submit", insertCase);
     document.getElementById("deleteCase").addEventListener("submit", deleteCase)
     document.getElementById("updateCase").addEventListener("submit", updateCase);
+    document.getElementById("filterTable").addEventListener("submit", filterCase);
 };
 
 function fetchTableData() {
-    fetchAndDisplayCases();
+    fetchAndDisplayCases('');
 }
 
