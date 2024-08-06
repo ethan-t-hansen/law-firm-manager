@@ -43,13 +43,13 @@ const attributes = {
     Ticket: ["TicketNum", "DateIssued", "Amount", "OfficerID", "City", "StatuteCode"],
     Officer: ["OfficerID", "Department", "Name"],
     Insurance: ["PolicyNum", "ExpiryDate", "ClientID"],
-    Court: ["Name", "Location", "Type"],
+    Court: ["CourtName", "Location", "Type"],
     Judge: ["JudgeID", "Name", "CourtName"],
     Prosecutor: ["ProsecutorID", "Name", "FirmName", "CourtName"],
     FirmEmployment: ["FirmName", "Clerk"],
     TicketLocation: ["City", "County"],
     TicketTypes: ["StatuteCode", "TicketType"],
-    Speeding: ["TicketNumber", "Speed", "SpeedingZone"],
+    Speeding: ["TicketNum", "Speed", "SpeedingZone"],
     ZoneLimits: ["SpeedingZone", "SpeedLimit"],
     Parking: ["TicketNum", "ParkingZone"],
     TrafficLight: ["TicketNum", "PhotoURL"],
@@ -121,10 +121,11 @@ async function fetchAndDisplayEntities(data) {
     }
 
     const dataString = `${data.join(', ')}`;
+    const val = '';
 
     console.log(dataString);
 
-    routeToFetch = routeToFetch + `?attributes=${dataString}`
+    routeToFetch = routeToFetch + `?attributes=${dataString}&filters=${val}`
 
     console.log(routeToFetch);
 

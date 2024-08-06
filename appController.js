@@ -22,7 +22,6 @@ router.get('/check-db-connection', async (req, res) => {
 //Get all Insurance
 router.get('/instable', async (req, res) => {
     const attributes = req.query.attributes;
-    console.log("fetching insurance: " + attributes)
     const tableContent = await appService.fetchInsTableFromDb(attributes);
     res.json({data: tableContent});
 });
@@ -170,8 +169,6 @@ router.post("/update-case", async (req, res) => {
 // DELETE Case
 router.post("/delete-case", async (req, res) => {
     const { caseid } = req.body;
-
-    console.log(caseid)
     
     try {
         const deleteResult = await appService.deleteCase(caseid);
@@ -190,7 +187,6 @@ router.post("/join-client-ticket", async (req, res) => {
 
     const city = req.body
 
-    console.log("Joining where city is " + city)
 });
 
 {/* ------------------------------ ADVANCED QUERIES ------------------------------ */}

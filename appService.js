@@ -253,11 +253,9 @@ async function fetchCasesTableFromDb(data, filters) {
     var attributes = data.split(', ').map(item => item.trim());
     var filterString = `${filters}`;
 
-    console.log(filterString)
-
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            filterString.length > 0 ?
+            filterString !== '' ?
             `SELECT ${attributes.join(",")} FROM CASETABLE WHERE ${filterString} ORDER BY CaseID` :
             `SELECT ${attributes.join(",")} FROM CASETABLE ORDER BY CaseID`
         );

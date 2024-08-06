@@ -127,7 +127,7 @@ async function getOutcomeRates(e) {
 
     const successRateElement = document.getElementById('successRate')
 
-    successRateElement.textContent = "Success Rate: " + (100*(successes/numTuples)) + "%";
+    successRateElement.textContent = "Success Rate: " + parseFloat(100*(successes/numTuples)).toFixed(2) + "%";
 
     const messageElement = document.getElementById('outcomesMsg');
 
